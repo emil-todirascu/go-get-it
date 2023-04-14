@@ -201,11 +201,20 @@ a {
 	width: 12rem;
 }
 
+.mini-app:hover {
+	background-color: var(--gray);
+	cursor: pointer;
+}
+
 .mini-app-text {
 	padding-left: 1rem;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+.mini-app-content {
+	display: none;
 }
 
 .apps {
