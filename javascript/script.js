@@ -106,7 +106,27 @@ function dragElement(element) {
 }
 
 function delWindow(id) {
-	document.getElementById("window" + id).remove();
+	const win = document.getElementById("window" + id);
+	win.style.transition = "width 500ms, height 500ms, top 500ms, left 500ms";
+
+	win.style.overflow = "hidden";
+	win.style.minHeight = "0px";
+	win.style.minWidth = "0px";
+
+	win.style.top =
+		parseInt(win.offsetTop) + parseInt(win.offsetHeight) / 2 + "px";
+	win.style.left =
+		parseInt(win.offsetLeft) + parseInt(win.offsetWidth) / 2 + "px";
+
+	win.style.width = 10 + "px";
+	win.style.height = 10 + "px";
+
+	window.setTimeout(function () {
+		win.style.transition = "none";
+		win.remove();
+		console.log("window" + win + " removed");
+		console.log("id" + id);
+	}, 500);
 }
 
 function maxWindow(id) {
@@ -123,7 +143,7 @@ function maxWindow(id) {
 		win.style.top === 0 + "px" &&
 		win.style.left === 0 + "px"
 	) {
-		console.log("already big");
+		// console.log("already big");
 		win.style.width = parseInt(width) / 2 + "px";
 		win.style.height = parseInt(height) / 2 + "px";
 
@@ -156,8 +176,26 @@ function minWindow(id) {
 	} else {
 		let content = win.children[1].innerHTML.trim();
 	}
-	newMiniWindow(title, icon, id, content);
-	delWindow(id);
+
+	win.style.transition =
+		"top 500ms, bottom 500ms, left 500ms, width 500ms, height 500ms";
+
+	let height = window.innerHeight;
+
+	win.style.overflow = "hidden";
+	win.style.minHeight = "0px";
+	win.style.minWidth = "0px";
+
+	win.style.top = height + "px";
+	win.style.left = 0 + "px";
+	win.style.width = 0 + "px";
+	win.style.height = 0 + "px";
+
+	window.setTimeout(function () {
+		win.style.transition = "none";
+		newMiniWindow(title, icon, id, content);
+		delWindow(id);
+	}, 500);
 }
 
 var winID = 100;
@@ -234,7 +272,7 @@ function newNotepad() {
 	newWindow(content, "Notepad", `<i class="fa-solid fa-file-lines"></i>`);
 }
 
-windows = document.getElementsByClassName("window");
+const windows = document.getElementsByClassName("window");
 const toolBarH = document.getElementById("toolbar").clientHeight;
 
 for (let i = 0; i < windows.length; i++) {
