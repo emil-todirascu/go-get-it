@@ -199,13 +199,14 @@ a {
 	height: 100%;
 	padding: 0.6rem 0.5rem 0rem 0.6rem;
 	display: flex;
-	width: 12rem;
+	width: 0rem;
 
-	transition: opacity 500ms;
+	transition: opacity 500ms, width 300ms;
+	opacity: 0;
 }
 
 .mini-app:hover {
-	background-color: var(--gray);
+	background-color: var(--light-gray);
 	cursor: pointer;
 }
 

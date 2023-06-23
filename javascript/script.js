@@ -14,7 +14,6 @@ function dragElement(element) {
 	document.getElementById(element.id + "-bar").onmousedown = dragMouseDown;
 
 	function dragMouseDown(e) {
-		e = e || window.event;
 		e.preventDefault();
 
 		// initial cursor pos
@@ -107,7 +106,8 @@ function dragElement(element) {
 
 function delWindow(id) {
 	const win = document.getElementById("window" + id);
-	win.style.transition = "width 500ms, height 500ms, top 500ms, left 500ms";
+	win.style.transition =
+		"width 500ms, height 500ms, top 500ms, left 500ms, opacity 300ms";
 
 	win.style.overflow = "hidden";
 	win.style.minHeight = "0px";
@@ -120,6 +120,7 @@ function delWindow(id) {
 
 	win.style.width = 10 + "px";
 	win.style.height = 10 + "px";
+	win.style.opacity = 0;
 
 	window.setTimeout(function () {
 		win.style.transition = "none";
@@ -178,13 +179,14 @@ function minWindow(id) {
 	}
 
 	win.style.transition =
-		"top 500ms, bottom 500ms, left 500ms, width 500ms, height 500ms";
+		"top 500ms, bottom 500ms, left 500ms, width 500ms, height 500ms, opacity 300ms";
 
 	let height = window.innerHeight;
 
 	win.style.overflow = "hidden";
 	win.style.minHeight = "0px";
 	win.style.minWidth = "0px";
+	win.style.opacity = "0";
 
 	win.style.top = height + "px";
 	win.style.left = 0 + "px";
@@ -195,7 +197,7 @@ function minWindow(id) {
 		win.style.transition = "none";
 		newMiniWindow(title, icon, id, content);
 		delWindow(id);
-	}, 500);
+	}, 300);
 }
 
 var winID = 100;
@@ -253,6 +255,14 @@ function newMiniWindow(title, icon, id, content) {
     </button>
     `;
 	$("#mini-apps").append(app);
+	let win = document.getElementById(`mini-app${id}`);
+
+	// win.style.transition = "opacity 500ms";
+
+	window.setTimeout(function () {
+		win.style.opacity = "1";
+		win.style.width = "12rem";
+	}, 1);
 }
 
 function openMiniWindow(id) {
