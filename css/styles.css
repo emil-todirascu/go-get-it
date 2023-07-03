@@ -17,6 +17,7 @@ body {
 	--black: rgb(28, 27, 34);
 	--gray: rgb(43, 42, 51);
 	--light-gray: rgb(66, 65, 77);
+	--green: rgb(0, 255, 0);
 }
 
 body {
@@ -44,7 +45,8 @@ a {
 	background: var(--light-gray);
 
 	resize: both;
-	overflow: auto;
+	overflow: hidden;
+	/* changed from overflow: auto */
 
 	min-width: 20rem;
 	min-height: 20rem;
@@ -71,10 +73,10 @@ a {
 	padding-left: 0.5rem;
 	padding-top: 0.2rem;
 	font-size: 2rem;
-	height: 100%;
+	/* height: 100%; TODO COULD BREAK MAYBE */
 	display: flex;
 
-	white-space: nowrap;
+	/* white-space: nowrap; */
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
@@ -88,6 +90,10 @@ a {
 	justify-content: end;
 
 	width: fit-content;
+}
+
+.window-content {
+	flex: 1;
 }
 
 .btn-control {
@@ -104,8 +110,13 @@ a {
 	cursor: pointer;
 }
 
-.btn-control:hover .ctrl {
+.btn-control:hover .ctrl-close {
 	background-color: red;
+}
+
+.btn-control:hover .ctrl-maxi,
+.btn-control:hover .ctrl-mini {
+	background-color: rgb(66, 65, 77);
 }
 
 .ctrl {
@@ -147,18 +158,13 @@ a {
 .ctrl-mini::after {
 	content: "|";
 	position: absolute;
-	left: 95%;
+	left: 94%;
 }
 
 .ctrl-close::before {
 	content: "|";
 	position: absolute;
-	right: 95%;
-}
-
-.window-content {
-	padding: 3px;
-	flex-grow: 1;
+	right: 94%;
 }
 
 /* Toolbar */
@@ -197,11 +203,11 @@ a {
 	font-family: "Courier New", Courier, monospace;
 
 	height: 100%;
-	padding: 0.6rem 0.5rem 0rem 0.6rem;
+	padding: 0.6rem 1rem 0rem 0.6rem;
 	display: flex;
-	width: 0rem;
+	max-width: 0rem;
 
-	transition: opacity 500ms, width 300ms;
+	transition: opacity 500ms, max-width 300ms;
 	opacity: 0;
 }
 
@@ -258,23 +264,83 @@ a {
 /* Notepad */
 
 .notepad-text {
-	min-width: 10rem;
-	min-height: 15rem;
+	/* min-width: 10rem;
+	min-height: 15rem; */
 	width: 100%;
 	height: 100%;
 	resize: none;
 
-	margin: 0;
+	/* margin: 0; */
 }
 
-/* Because chrome decides to be broken for no reason */
-@media screen and (-webkit-min-device-pixel-ratio: 0) {
-	.notepad-text {
-		height: 98%;
+.cbc-content {
+	background-color: black;
+	color: var(--green);
+	font-weight: 100;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+
+	::-webkit-scrollbar {
+		width: 7px;
+	}
+
+	::-webkit-scrollbar-track {
+		background: black;
+		margin: 5px;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background: var(--green);
+		border-radius: 10rem;
+	}
+
+	::-webkit-scrollbar-thumb:hover {
+		background: rgb(0, 150, 0);
 	}
 }
-@-moz-document url-prefix() {
-	.notepad-text {
-		height: 100%;
-	}
+
+.cbc-top {
+	border-bottom: var(--green) solid 1px;
+}
+
+.cbc-mid {
+	flex: 1;
+	overflow: hidden;
+	max-height: 100%;
+	position: relative;
+}
+
+.cbc-commands {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+	display: flex;
+	flex-direction: column-reverse;
+}
+
+/* .cbc-command {
+} */
+
+.cbc-bot {
+	border-top: var(--green) solid 1px;
+	display: flex;
+	width: 100%;
+}
+
+.cbc-form {
+	width: 100%;
+}
+
+.cbc-input {
+	width: 100%;
+	height: 100%;
+	background: black;
+	color: var(--green);
+	border: none;
+	outline: none;
+	font-family: "Courier New", Courier, monospace;
+	/* caret-shape: block; */
 }

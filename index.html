@@ -41,10 +41,53 @@
                     </div>
                 </div>
                 <div class="window-content">
-                    <textarea name="notepad-text" id="notepad-text" class="notepad-text"></textarea>
+                    <textarea name="notepad-text" class="notepad-text"></textarea>
                 </div>
             </div>
 
+            <div class="window" id="window2">
+                <div class="window-top">
+                    <div class="window-bar" id="window2-bar">
+                        <div class="window-icon">
+                            <i class="fa-solid fa-terminal"></i>
+                        </div>
+                        <div class="window-name">
+                            CBC
+                        </div>
+                    </div>
+                    <div class="window-control">
+                        <button class="btn-control" type="button" onclick="minWindow(2)">
+                            <div class="ctrl-mini ctrl">
+                                <i class="fa-solid fa-window-minimize"></i>
+                            </div>
+                        </button>
+                        <button class="btn-control" type="button" onclick="maxWindow(2)">
+                            <div class="ctrl-maxi ctrl">
+                                <i class="fa-solid fa-tv"></i>
+                            </div>
+                        </button>
+                        <button class="btn-control" type="button" onclick="delWindow(2)">
+                            <div class="ctrl-close ctrl">
+                                <i class="fa-solid fa-x"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div class="cbc-content">
+                        <div class="cbc-top">Command Based Console V 1.0</div>
+                        <div class="cbc-mid">
+                            <div class="cbc-commands" id="cbc-commands"></div>
+                        </div>
+                        <div class="cbc-bot">
+                            <div class="chevron">></div>
+                            <form onsubmit="newCommand(event)" class="cbc-form">
+                                <input type="text" id="command" class="cbc-input">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="toolbar" id="toolbar">
             <div class="mini-apps" id="mini-apps">
@@ -52,6 +95,9 @@
             <div class="apps">
                 <button class="app" onclick="newNotepad()">
                     <i class="fa-solid fa-file-lines"></i>
+                </button>
+                <button class="app" onclick="openCBC()">
+                    <i class="fa-solid fa-terminal"></i>
                 </button>
                 <button class="app" onclick="openDecryptor()">
                     <i class="fa-solid fa-unlock-keyhole"></i>

@@ -25,7 +25,7 @@ function dragElement(element) {
 	}
 
 	function elementDrag(e) {
-		e = e || window.event;
+		e = e;
 		e.preventDefault();
 
 		element.style.transition = "none";
@@ -171,11 +171,13 @@ function minWindow(id) {
 	let win = document.getElementById("window" + id);
 
 	if (title === "Notepad") {
-		content = `
-        <textarea name="notepad-text" id="notepad-text" class="notepad-text">${win.children[1].children[0].value}</textarea>
-        `;
+		var content = `
+		<textarea name="notepad-text" class="notepad-text">${win.children[1].children[0].value}</textarea>
+		`;
+		// var content = win.children[1].innerHTML.trim();
+		// console.log(content);
 	} else {
-		let content = win.children[1].innerHTML.trim();
+		var content = win.children[1].innerHTML.trim();
 	}
 
 	win.style.transition =
@@ -238,7 +240,8 @@ function newWindow(content, tabName, icon) {
         </div>
     </div>
     `;
-	$("#windows").append(win);
+	var windows = document.getElementById("windows");
+	windows.insertAdjacentHTML("beforeend", win);
 	dragElement(document.getElementById("window" + winID));
 }
 
@@ -254,14 +257,13 @@ function newMiniWindow(title, icon, id, content) {
         </div>
     </button>
     `;
-	$("#mini-apps").append(app);
+	var miniApps = document.getElementById("mini-apps");
+	miniApps.insertAdjacentHTML("beforeend", app);
 	let win = document.getElementById(`mini-app${id}`);
-
-	// win.style.transition = "opacity 500ms";
 
 	window.setTimeout(function () {
 		win.style.opacity = "1";
-		win.style.width = "12rem";
+		win.style.maxWidth = "12rem";
 	}, 1);
 }
 
@@ -277,10 +279,34 @@ function openMiniWindow(id) {
 
 function newNotepad() {
 	let content = `
-    <textarea name="notepad-text" id="notepad-text" class="notepad-text"></textarea>
+    <textarea name="notepad-text" class="notepad-text"></textarea>
     `;
 	newWindow(content, "Notepad", `<i class="fa-solid fa-file-lines"></i>`);
 }
+
+function openCBC() {
+	newWindow("", "CBC", `<i class="fa-solid fa-terminal"></i>`);
+}
+
+function newCommand(e) {
+	e.preventDefault();
+	console.log(e);
+	var inputElement = document.getElementById("command");
+	var inputValue = inputElement.value;
+
+	outputCommand(inputValue);
+	inputElement.value = "";
+}
+
+function outputCommand(command) {
+	let output = `<div class="cbc-command">${command}</div>`;
+	var cons = document.getElementById("cbc-commands");
+	cons.insertAdjacentHTML("afterbegin", output);
+}
+
+// TODO:
+// windows stick to corners
+// windows resize from all sides and corners
 
 const windows = document.getElementsByClassName("window");
 const toolBarH = document.getElementById("toolbar").clientHeight;
