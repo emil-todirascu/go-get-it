@@ -4,15 +4,16 @@
 <head>
     <link rel="stylesheet" href="css/styles.css">
     <script src="javascript/script.js" defer></script>
+    <script src="javascript/cbc.js"></script>
     <script src="https://kit.fontawesome.com/0dbcfdfdb3.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
-    <title>Document</title>
+    <title>go get it</title>
 </head>
 
 <body>
     <div class="desktop" id="desktop">
         <div class="windows" id="windows">
-            <div class="window" id="window1">
+            <!-- <div class="window" id="window1">
                 <div class="window-top">
                     <div class="window-bar" id="window1-bar">
                         <div class="window-icon">
@@ -43,7 +44,7 @@
                 <div class="window-content">
                     <textarea name="notepad-text" class="notepad-text"></textarea>
                 </div>
-            </div>
+            </div> -->
 
             <div class="window" id="window2">
                 <div class="window-top">
@@ -58,31 +59,32 @@
                     <div class="window-control">
                         <button class="btn-control" type="button" onclick="minWindow(2)">
                             <div class="ctrl-mini ctrl">
-                                <i class="fa-solid fa-window-minimize"></i>
+                                <i class="fa-solid fa-window-minimize">min</i>
                             </div>
                         </button>
                         <button class="btn-control" type="button" onclick="maxWindow(2)">
                             <div class="ctrl-maxi ctrl">
-                                <i class="fa-solid fa-tv"></i>
+                                <i class="fa-solid fa-tv">max</i>
                             </div>
                         </button>
                         <button class="btn-control" type="button" onclick="delWindow(2)">
                             <div class="ctrl-close ctrl">
-                                <i class="fa-solid fa-x"></i>
+                                <i class="fa-solid fa-x">del</i>
                             </div>
                         </button>
                     </div>
                 </div>
                 <div class="window-content">
                     <div class="cbc-content">
-                        <div class="cbc-top">Command Based Console V 1.0</div>
+                        <div class="cbc-top">command based console v 1.0</div>
                         <div class="cbc-mid">
                             <div class="cbc-commands" id="cbc-commands"></div>
                         </div>
                         <div class="cbc-bot">
+                            <div class="directory" id="directory"></div>
                             <div class="chevron">></div>
                             <form onsubmit="newCommand(event)" class="cbc-form">
-                                <input type="text" id="command" class="cbc-input">
+                                <input type="text" id="command" class="cbc-input" autocomplete="off">
                             </form>
                         </div>
                     </div>
@@ -94,16 +96,16 @@
             </div>
             <div class="apps">
                 <button class="app" onclick="newNotepad()">
-                    <i class="fa-solid fa-file-lines"></i>
+                    <i class="fa-solid fa-file-lines">not</i>
                 </button>
                 <button class="app" onclick="openCBC()">
-                    <i class="fa-solid fa-terminal"></i>
+                    <i class="fa-solid fa-terminal">cbc</i>
                 </button>
                 <button class="app" onclick="openDecryptor()">
-                    <i class="fa-solid fa-unlock-keyhole"></i>
+                    <i class="fa-solid fa-unlock-keyhole">dec</i>
                 </button>
                 <button class="app" onclick="openSettings()">
-                    <i class="fa-solid fa-gear"></i>
+                    <i class="fa-solid fa-gear">set</i>
                 </button>
             </div>
         </div>

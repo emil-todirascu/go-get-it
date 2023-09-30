@@ -13,10 +13,25 @@ function dragElement(element) {
 	// console.log(element.id)
 	document.getElementById(element.id + "-bar").onmousedown = dragMouseDown;
 
+	document.getElementById(element.id).onmousedown = focusWindow;
+
+	function focusWindow(e) {
+		// e.preventDefault();
+
+		let maxZIndex = 0;
+		for (let i = 0; i < windows.length; i++) {
+			const zIndex = parseInt(windows[i].style.zIndex);
+
+			if (zIndex > maxZIndex) {
+				maxZIndex = zIndex;
+			}
+		}
+
+		this.style.zIndex = maxZIndex + 1;
+	}
+
 	function dragMouseDown(e) {
 		e.preventDefault();
-
-		// initial cursor pos
 		pos3 = e.clientX;
 		pos4 = e.clientY;
 
@@ -43,14 +58,9 @@ function dragElement(element) {
 		let height = window.innerHeight - toolBarH;
 		let width = window.innerWidth;
 
-		// console.log("height " + height);
-		// console.log("width " + width);
-
 		// set new pos
 		let newTop = element.offsetTop - pos2;
 		let newLeft = element.offsetLeft - pos1;
-
-		// console.log({newTop, newLeft})
 
 		if (-1 < newTop && newTop < height - 5) {
 			element.style.top = newTop + "px";
@@ -62,46 +72,54 @@ function dragElement(element) {
 	}
 
 	function closeDragElement() {
-		let height = window.innerHeight - toolBarH;
-		let width = window.innerWidth;
-		// console.log({height, width})
-
-		if (pos3 <= 5) {
-			element.style.transition =
-				"top 500ms, left 500ms, width 500ms, height 500ms";
-			element.style.top = 0 + "px";
-			element.style.left = 0 + "px";
-			element.style.width = parseInt(width) / 2 + "px";
-			element.style.height = height + "px";
-			window.setTimeout(function () {
-				element.style.transition = "none";
-			}, 500);
+		let height = parseInt(window.innerHeight - toolBarH);
+		let width = parseInt(window.innerWidth);
+		console.log({ height, width });
+		console.log(pos3, pos4);
+		if (pos3 <= 5 + 20 && pos4 >= height - 30) {
+			positionElement(height / 2, 0, width / 2, height / 2);
+		} else if (pos3 <= 5 + 20 && pos4 <= 10 + 30) {
+			positionElement(0, 0, width / 2, height / 2);
+		} else if (pos3 >= width - 10 - 20 && pos4 <= 10 + 30) {
+			positionElement(0, width / 2, width / 2, height / 2);
+		} else if (pos3 >= width - 10 - 20 && pos4 >= height - 30) {
+			positionElement(height / 2, width / 2, width / 2, height / 2);
+		} else if (pos3 <= 5) {
+			positionElement(0, 0, width / 2, height);
 		} else if (pos4 <= 10) {
-			element.style.transition =
-				"top 500ms, left 500ms, width 500ms, height 500ms";
-			element.style.top = 0 + "px";
-			element.style.left = 0 + "px";
-			element.style.width = width + "px";
-			element.style.height = height + "px";
-			window.setTimeout(function () {
-				element.style.transition = "none";
-			}, 500);
-		} else if (pos3 >= width - 11) {
-			element.style.transition =
-				"top 500ms, left 500ms, width 500ms, height 500ms";
-			element.style.top = 0 + "px";
-			element.style.left = parseInt(width) / 2 + "px";
-			element.style.width = parseInt(width) / 2 + "px";
-			element.style.height = height + "px";
-			window.setTimeout(function () {
-				element.style.transition = "none";
-			}, 500);
+			positionElement(0, 0, width, height);
+		} else if (pos3 >= width - 10) {
+			positionElement(0, width / 2, width / 2, height);
 		}
 
 		// stop on mouse up
 		document.onmouseup = null;
 		document.onmousemove = null;
 	}
+
+	function positionElement(top, left, width, height) {
+		element.style.transition =
+			"top 500ms, left 500ms, width 500ms, height 500ms";
+		element.style.top = top + "px";
+		element.style.left = left + "px";
+		element.style.width = width + "px";
+		element.style.height = height + "px";
+		window.setTimeout(function () {
+			element.style.transition = "none";
+		}, 500);
+	}
+
+	// function makeWindowActive(id) {
+	// 	const win = document.getElementById("window" + id);
+	// 	for (let i = 0; i < windows.length; i++) {
+	// 		if (windows[i].id === id) {
+	// 			console.log("window" + id + " active");
+	// 			windows[i].classList.add("window-active");
+	// 		} else {
+	// 			windows[i].classList.remove("window-active");
+	// 		}
+	// 	}
+	// }
 }
 
 function delWindow(id) {
@@ -131,10 +149,10 @@ function delWindow(id) {
 }
 
 function maxWindow(id) {
-	let win = document.getElementById("window" + id);
+	const win = document.getElementById("window" + id);
 
-	let height = window.innerHeight - toolBarH;
-	let width = window.innerWidth;
+	const height = window.innerHeight - toolBarH;
+	const width = window.innerWidth;
 
 	win.style.transition = "top 500ms, left 500ms, width 500ms, height 500ms";
 
@@ -163,27 +181,26 @@ function maxWindow(id) {
 }
 
 function minWindow(id) {
-	let winBar = document.getElementById("window" + id + "-bar");
+	const winBar = document.getElementById("window" + id + "-bar");
 
-	let title = winBar.children[1].innerHTML.trim();
-	let icon = winBar.children[0].innerHTML;
+	const title = winBar.children[1].innerHTML.trim();
+	const icon = winBar.children[0].innerHTML;
 
-	let win = document.getElementById("window" + id);
+	const win = document.getElementById("window" + id);
+	let content;
 
 	if (title === "Notepad") {
-		var content = `
+		content = `
 		<textarea name="notepad-text" class="notepad-text">${win.children[1].children[0].value}</textarea>
 		`;
-		// var content = win.children[1].innerHTML.trim();
-		// console.log(content);
 	} else {
-		var content = win.children[1].innerHTML.trim();
+		content = win.children[1].innerHTML.trim();
 	}
 
 	win.style.transition =
-		"top 500ms, bottom 500ms, left 500ms, width 500ms, height 500ms, opacity 300ms";
+		"top 500ms, bottom 500ms, left 500ms, width 500ms, height 500ms, opacity 300ms, min-width 500ms, min-height 500ms";
 
-	let height = window.innerHeight;
+	const height = window.innerHeight;
 
 	win.style.overflow = "hidden";
 	win.style.minHeight = "0px";
@@ -202,11 +219,11 @@ function minWindow(id) {
 	}, 300);
 }
 
-var winID = 100;
+let winID = 100;
 function newWindow(content, tabName, icon) {
 	winID++;
 
-	let win = `
+	const win = `
     <div class="window" id="window${winID}">
         <div class="window-top">
             <div class="window-bar" id="window${winID}-bar">
@@ -220,17 +237,17 @@ function newWindow(content, tabName, icon) {
             <div class="window-control">
                 <button class="btn-control" type="button" onclick="minWindow(${winID})">
                     <div class="ctrl-mini ctrl">
-                        <i class="fa-solid fa-window-minimize"></i>
+                        <i class="fa-solid fa-window-minimize">min</i>
                     </div>
                 </button>
                 <button class="btn-control" type="button" onclick="maxWindow(${winID})">
                     <div class="ctrl-maxi ctrl">
-                        <i class="fa-solid fa-tv"></i>
+                        <i class="fa-solid fa-tv">max</i>
                     </div>
                 </button>
                 <button class="btn-control" type="button" onclick="delWindow(${winID})">
                     <div class="ctrl-close ctrl">
-                        <i class="fa-solid fa-x"></i>
+                        <i class="fa-solid fa-x">del</i>
                     </div>
                 </button>
             </div>
@@ -240,13 +257,13 @@ function newWindow(content, tabName, icon) {
         </div>
     </div>
     `;
-	var windows = document.getElementById("windows");
+	const windows = document.getElementById("windows");
 	windows.insertAdjacentHTML("beforeend", win);
 	dragElement(document.getElementById("window" + winID));
 }
 
 function newMiniWindow(title, icon, id, content) {
-	let app = `
+	const app = `
     <button class="mini-app" id="mini-app${id}" onclick="openMiniWindow(${id})">
         ${icon}
         <div class="mini-app-text">
@@ -257,9 +274,9 @@ function newMiniWindow(title, icon, id, content) {
         </div>
     </button>
     `;
-	var miniApps = document.getElementById("mini-apps");
+	const miniApps = document.getElementById("mini-apps");
 	miniApps.insertAdjacentHTML("beforeend", app);
-	let win = document.getElementById(`mini-app${id}`);
+	const win = document.getElementById(`mini-app${id}`);
 
 	window.setTimeout(function () {
 		win.style.opacity = "1";
@@ -268,17 +285,17 @@ function newMiniWindow(title, icon, id, content) {
 }
 
 function openMiniWindow(id) {
-	let win = document.getElementById(`mini-app${id}`);
-	let icon = win.children[0].outerHTML;
-	let title = win.children[1].textContent.trim();
-	let content = win.children[2].innerHTML;
+	const win = document.getElementById(`mini-app${id}`);
+	const icon = win.children[0].outerHTML;
+	const title = win.children[1].textContent.trim();
+	const content = win.children[2].innerHTML;
 
 	newWindow(content, title, icon);
 	win.remove();
 }
 
 function newNotepad() {
-	let content = `
+	const content = `
     <textarea name="notepad-text" class="notepad-text"></textarea>
     `;
 	newWindow(content, "Notepad", `<i class="fa-solid fa-file-lines"></i>`);
@@ -286,27 +303,29 @@ function newNotepad() {
 
 function openCBC() {
 	newWindow("", "CBC", `<i class="fa-solid fa-terminal"></i>`);
+	// initCBC();
 }
 
+const inputElement = document.getElementById("command");
 function newCommand(e) {
 	e.preventDefault();
+	console.log("new command");
 	console.log(e);
-	var inputElement = document.getElementById("command");
-	var inputValue = inputElement.value;
-
-	outputCommand(inputValue);
+	const inputValue = inputElement.value;
+	handleCommand(inputValue);
 	inputElement.value = "";
 }
 
+const cons = document.getElementById("cbc-commands");
 function outputCommand(command) {
-	let output = `<div class="cbc-command">${command}</div>`;
-	var cons = document.getElementById("cbc-commands");
+	const output = `<p class="cbc-command">${command}</p>`;
 	cons.insertAdjacentHTML("afterbegin", output);
 }
 
 // TODO:
-// windows stick to corners
 // windows resize from all sides and corners
+
+initCBC();
 
 const windows = document.getElementsByClassName("window");
 const toolBarH = document.getElementById("toolbar").clientHeight;
