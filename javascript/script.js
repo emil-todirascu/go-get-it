@@ -3,14 +3,7 @@ function dragElement(element) {
 		pos2 = 0,
 		pos3 = 0,
 		pos4 = 0;
-	// let height = window.innerHeight;
-	// let width = window.innerWidth;
 
-	// console.log("height " + height)
-	// console.log("width " + width)
-	// console.log("toolBar " + toolBarH)
-	// console.log(element);
-	// console.log(element.id)
 	document.getElementById(element.id + "-bar").onmousedown = dragMouseDown;
 
 	document.getElementById(element.id).onmousedown = focusWindow;
@@ -108,18 +101,6 @@ function dragElement(element) {
 			element.style.transition = "none";
 		}, 500);
 	}
-
-	// function makeWindowActive(id) {
-	// 	const win = document.getElementById("window" + id);
-	// 	for (let i = 0; i < windows.length; i++) {
-	// 		if (windows[i].id === id) {
-	// 			console.log("window" + id + " active");
-	// 			windows[i].classList.add("window-active");
-	// 		} else {
-	// 			windows[i].classList.remove("window-active");
-	// 		}
-	// 	}
-	// }
 }
 
 function delWindow(id) {
@@ -162,7 +143,6 @@ function maxWindow(id) {
 		win.style.top === 0 + "px" &&
 		win.style.left === 0 + "px"
 	) {
-		// console.log("already big");
 		win.style.width = parseInt(width) / 2 + "px";
 		win.style.height = parseInt(height) / 2 + "px";
 
@@ -220,6 +200,7 @@ function minWindow(id) {
 }
 
 let winID = 100;
+const windowsElement = document.getElementById("windows");
 function newWindow(content, tabName, icon) {
 	winID++;
 
@@ -231,37 +212,37 @@ function newWindow(content, tabName, icon) {
                     ${icon}
                 </div>
                 <div class="window-name">
-                ${tabName}
+                	${tabName}
                 </div>
             </div>
             <div class="window-control">
                 <button class="btn-control" type="button" onclick="minWindow(${winID})">
                     <div class="ctrl-mini ctrl">
-                        <i class="fa-solid fa-window-minimize">min</i>
+                        <i class="fa-solid fa-window-minimize"></i>
                     </div>
                 </button>
                 <button class="btn-control" type="button" onclick="maxWindow(${winID})">
                     <div class="ctrl-maxi ctrl">
-                        <i class="fa-solid fa-tv">max</i>
+                        <i class="fa-solid fa-tv"></i>
                     </div>
                 </button>
                 <button class="btn-control" type="button" onclick="delWindow(${winID})">
                     <div class="ctrl-close ctrl">
-                        <i class="fa-solid fa-x">del</i>
+                        <i class="fa-solid fa-x"></i>
                     </div>
                 </button>
             </div>
         </div>
         <div class="window-content">
-        ${content}
+        	${content}
         </div>
     </div>
     `;
-	const windows = document.getElementById("windows");
-	windows.insertAdjacentHTML("beforeend", win);
+	windowsElement.insertAdjacentHTML("beforeend", win);
 	dragElement(document.getElementById("window" + winID));
 }
 
+const miniApps = document.getElementById("mini-apps");
 function newMiniWindow(title, icon, id, content) {
 	const app = `
     <button class="mini-app" id="mini-app${id}" onclick="openMiniWindow(${id})">
@@ -274,7 +255,6 @@ function newMiniWindow(title, icon, id, content) {
         </div>
     </button>
     `;
-	const miniApps = document.getElementById("mini-apps");
 	miniApps.insertAdjacentHTML("beforeend", app);
 	const win = document.getElementById(`mini-app${id}`);
 
@@ -290,6 +270,12 @@ function openMiniWindow(id) {
 	const title = win.children[1].textContent.trim();
 	const content = win.children[2].innerHTML;
 
+	for (let i = 0; i < miniApps.children.length; i++) {
+		if (miniApps.children[i].children[1].innerHTML.trim() == "CBC") {
+			console.log(miniApps.children[i].id.substring(8));
+		}
+	}
+
 	newWindow(content, title, icon);
 	win.remove();
 }
@@ -302,30 +288,46 @@ function newNotepad() {
 }
 
 function openCBC() {
-	newWindow("", "CBC", `<i class="fa-solid fa-terminal"></i>`);
-	// initCBC();
+	for (let i = 0; i < miniApps.children.length; i++) {
+		if (miniApps.children[i].children[1].innerHTML.trim() === "CBC") {
+			openMiniWindow(miniApps.children[i].id.substring(8));
+			return;
+		}
+	}
+
+	for (let i = 0; i < windows.length; i++) {
+		if (
+			windows[i].children[0].children[0].children[1].innerHTML.trim() === "CBC"
+		) {
+			return;
+		}
+	}
+	const content = `
+	<div class="cbc-content">
+		<div class="cbc-top">command based console v 1.0</div>
+		<div class="cbc-mid">
+			<div class="cbc-commands" id="cbc-commands"></div>
+		</div>
+		<div class="cbc-bot">
+			<div class="directory" id="directory"></div>
+			<div class="chevron">></div>
+			<form onsubmit="newCommand(event)" class="cbc-form">
+				<input type="text" id="command" class="cbc-input" autocomplete="off">
+			</form>
+		</div>
+	</div>`;
+	newWindow(content, "CBC", `<i class="fa-solid fa-terminal"></i>`);
+	initCBC();
 }
 
-const inputElement = document.getElementById("command");
-function newCommand(e) {
-	e.preventDefault();
-	console.log("new command");
-	console.log(e);
-	const inputValue = inputElement.value;
-	handleCommand(inputValue);
-	inputElement.value = "";
-}
-
-const cons = document.getElementById("cbc-commands");
-function outputCommand(command) {
-	const output = `<p class="cbc-command">${command}</p>`;
-	cons.insertAdjacentHTML("afterbegin", output);
+function openSettings() {
+	newWindow("", "Settings", `<i class="fa-solid fa-gear"></i>`);
 }
 
 // TODO:
 // windows resize from all sides and corners
 
-initCBC();
+// initCBC();
 
 const windows = document.getElementsByClassName("window");
 const toolBarH = document.getElementById("toolbar").clientHeight;

@@ -61,17 +61,37 @@ let fileDirectory;
 let files;
 let downloads;
 let currentDirectory;
+let out;
 
 function initCBC() {
 	console.log("initializing CBC");
-	directoryElement = document.getElementById("directory");
+
 	fileDirectory = new TreeNodeFolder(":root");
 	files = new TreeNodeFolder("files");
 	downloads = new TreeNodeFolder("downloads");
 	setRelationship(fileDirectory, files);
 	setRelationship(fileDirectory, downloads);
 	currentDirectory = fileDirectory;
+
+	directoryElement = document.getElementById("directory");
 	directoryElement.innerText = ":root";
+}
+
+function newCommand(e) {
+	e.preventDefault();
+
+	let form = e.target;
+	let inputValue = form.querySelector("#command").value;
+	out = document.getElementById(`cbc-commands`);
+
+	handleCommand(inputValue);
+	form.reset();
+}
+
+// const cons = document.getElementById("cbc-commands");
+function outputCommand(command) {
+	let output = `<p class="cbc-command">${command}</p>`;
+	out.insertAdjacentHTML("afterbegin", output);
 }
 
 // Command Based Console (CBC)
@@ -116,7 +136,6 @@ function handleCommand(command) {
 		document.getElementById("cbc-commands").innerText = "";
 	} else if (commandStart === "exit") {
 		handleExit();
-		// TODO: exit CBC
 	} else if (commandStart === "make") {
 		const fileName = command.split(" ")[1];
 		handleMake(fileName);
@@ -134,8 +153,6 @@ function handleCommand(command) {
 	} else if (commandStart === "move") {
 		const fileName = command.split(" ")[1];
 		const newDirectory = command.split(" ")[2];
-		console.log("file name:", fileName);
-		console.log("new directory:", newDirectory);
 		handleMove(fileName, newDirectory);
 	} else if (commandStart === "name") {
 		const oldName = command.split(" ")[1];
@@ -304,7 +321,7 @@ function outputGeneralCommands() {
 }
 
 function handleExit() {
-	// TODO
+	outputCommand("TODO EXIT CBC");
 }
 
 function handleMake(fileName) {
@@ -325,7 +342,7 @@ function handleOpen(fileName) {
 	const oldFile = currentDirectory.getChild(fileName);
 	if (oldFile instanceof TreeNodeFile) {
 		outputCommand(`"${fileName}" opened`);
-		// TODO: open file
+		outputCommand("TODO OPEN FILE");
 	} else {
 		outputCommand(`"${fileName}" is not a file`);
 	}
@@ -422,6 +439,7 @@ function handleName(oldName, newName) {
 function handleDel(fileName) {
 	if (!currentDirectory.hasChild(fileName)) {
 		outputCommand(`"${fileName}" does not exist`);
+		return;
 	}
 
 	if (!awaitingConfirmation) {
@@ -441,17 +459,17 @@ function handleDel(fileName) {
 }
 
 function handleCon(networkName) {
-	// TODO network connection
+	outputCommand("TODO network connection");
 }
 
 function handleDcon() {
-	// TODO network disconnection
+	outputCommand("TODO network disconnection");
 }
 
 function handleScan() {
-	// TODO network scan
+	outputCommand("TODO network scan");
 }
 
 function handlePort(portNumber) {
-	// TODO network port
+	outputCommand("TODO network port");
 }
