@@ -188,7 +188,7 @@ a {
 	/* margin-left: auto; */
 	display: flex;
 	/* align-items: center; */
-	max-width: 80%;
+	/* max-width: 100%; */
 	overflow: hidden;
 
 	/* gap: 0.3rem; */
