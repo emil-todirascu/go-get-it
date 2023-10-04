@@ -321,7 +321,8 @@ function outputGeneralCommands() {
 }
 
 function handleExit() {
-	outputCommand("TODO EXIT CBC");
+	// TODO EXIT CBC
+	outputCommand("exit not implemented yet");
 }
 
 function handleMake(fileName) {
@@ -342,7 +343,8 @@ function handleOpen(fileName) {
 	const oldFile = currentDirectory.getChild(fileName);
 	if (oldFile instanceof TreeNodeFile) {
 		outputCommand(`"${fileName}" opened`);
-		outputCommand("TODO OPEN FILE");
+		// TODO OPEN FILE
+		outputCommand("open not implemented yet");
 	} else {
 		outputCommand(`"${fileName}" is not a file`);
 	}
@@ -459,17 +461,21 @@ function handleDel(fileName) {
 }
 
 function handleCon(networkName) {
-	outputCommand("TODO network connection");
+	// TODO network connection
+	outputCommand("con not implemented yet");
 }
 
 function handleDcon() {
-	outputCommand("TODO network disconnection");
+	// TODO network disconnection
+	outputCommand("dcon not implemented yet");
 }
 
 function handleScan() {
-	outputCommand("TODO network scan");
+	// TODO network scan
+	outputCommand("scan not implemented yet");
 }
 
 function handlePort(portNumber) {
-	outputCommand("TODO network port");
+	// TODO network port
+	outputCommand("port not implemented yet");
 }

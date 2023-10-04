@@ -291,6 +291,7 @@ function openCBC() {
 	for (let i = 0; i < miniApps.children.length; i++) {
 		if (miniApps.children[i].children[1].innerHTML.trim() === "CBC") {
 			openMiniWindow(miniApps.children[i].id.substring(8));
+			alert("You can only have one CBC open.");
 			return;
 		}
 	}
@@ -299,6 +300,7 @@ function openCBC() {
 		if (
 			windows[i].children[0].children[0].children[1].innerHTML.trim() === "CBC"
 		) {
+			alert("You can only have one CBC open.");
 			return;
 		}
 	}
