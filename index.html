@@ -43,6 +43,10 @@
                     </div>
                 </div>
                 <div class="window-content">
+                    <form onsubmit="changeBackground(event)">
+                        <input type="file" id="newImage" name="filename" autocomplete="off"><input type="submit"
+                            value="Set Background">
+                    </form>
                 </div>
             </div>
 
@@ -59,9 +63,9 @@
                     <!-- <button class="app" onclick="openDecryptor()">
                         <i class="fa-solid fa-unlock-keyhole"></i>
                     </button> -->
-                    <!-- <button class="app" onclick="openSettings()">
+                    <button class="app" onclick="openSettings()">
                         <i class="fa-solid fa-gear"></i>
-                    </button> -->
+                    </button>
                 </div>
             </div>
         </div>

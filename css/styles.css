@@ -46,7 +46,6 @@ a {
 
 	resize: both;
 	overflow: hidden;
-	/* changed from overflow: auto */
 
 	min-width: 20rem;
 	min-height: 20rem;
@@ -284,6 +283,11 @@ a {
 	display: flex;
 	flex-direction: column;
 
+	::selection {
+		color: black;
+		background: rgb(0, 150, 0);
+	}
+
 	::-webkit-scrollbar {
 		width: 7px;
 	}
@@ -321,7 +325,7 @@ a {
 	overflow-y: auto;
 	overflow-x: hidden;
 	display: flex;
-	flex-direction: column-reverse;
+	flex-direction: column;
 	line-height: normal;
 }
 
@@ -330,10 +334,6 @@ a {
 	padding: 0;
 }
 
-.cbc-command::selection {
-	color: black;
-	background: rgb(0, 150, 0);
-}
 .cbc-bot {
 	border-top: var(--green) solid 1px;
 	display: flex;

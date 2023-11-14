@@ -91,7 +91,8 @@ function newCommand(e) {
 // const cons = document.getElementById("cbc-commands");
 function outputCommand(command) {
 	let output = `<p class="cbc-command">${command}</p>`;
-	out.insertAdjacentHTML("afterbegin", output);
+	out.insertAdjacentHTML("beforeend", output);
+	out.scrollTo(0, out.scrollHeight);
 }
 
 // Command Based Console (CBC)
@@ -120,10 +121,9 @@ let commandAwaitingConfirmation = null;
 
 let commandStart;
 function handleCommand(command) {
-	console.log("handle command");
 	outputCommand(directoryElement.innerText + ">" + command);
 	commandStart = command.split(" ")[0];
-	console.log(commandStart);
+
 	if (awaitingConfirmation) {
 		getConfirmation(command);
 		return;

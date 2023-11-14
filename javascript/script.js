@@ -38,20 +38,15 @@ function dragElement(element) {
 
 		element.style.transition = "none";
 
-		// new cursor pos
 		pos1 = pos3 - e.clientX;
 		pos2 = pos4 - e.clientY;
 
-		// update cursor pos
 		pos3 = e.clientX;
 		pos4 = e.clientY;
-		// console.log("cursor: " + pos3 + " " + pos4);
 
-		// update window measurements
 		let height = window.innerHeight - toolBarH;
 		let width = window.innerWidth;
 
-		// set new pos
 		let newTop = element.offsetTop - pos2;
 		let newLeft = element.offsetLeft - pos1;
 
@@ -85,14 +80,13 @@ function dragElement(element) {
 			positionElement(0, width / 2, width / 2, height);
 		}
 
-		// stop on mouse up
 		document.onmouseup = null;
 		document.onmousemove = null;
 	}
 
 	function positionElement(top, left, width, height) {
 		element.style.transition =
-			"top 500ms, left 500ms, width 500ms, height 500ms";
+			"top 300ms, left 300ms, width 300ms, height 300ms";
 		element.style.top = top + "px";
 		element.style.left = left + "px";
 		element.style.width = width + "px";
@@ -135,7 +129,7 @@ function maxWindow(id) {
 	const height = window.innerHeight - toolBarH;
 	const width = window.innerWidth;
 
-	win.style.transition = "top 500ms, left 500ms, width 500ms, height 500ms";
+	win.style.transition = "top 300ms, left 300ms, width 300ms, height 300ms";
 
 	if (
 		win.style.width === width + "px" &&
@@ -323,44 +317,86 @@ function openCBC() {
 }
 
 function openSettings() {
-	newWindow("", "Settings", `<i class="fa-solid fa-gear"></i>`);
+	for (let i = 0; i < miniApps.children.length; i++) {
+		if (miniApps.children[i].children[1].innerHTML.trim() === "Settings") {
+			openMiniWindow(miniApps.children[i].id.substring(8));
+			alert("You can only have one Settings window open.");
+			return;
+		}
+	}
+
+	for (let i = 0; i < windows.length; i++) {
+		if (
+			windows[i].children[0].children[0].children[1].innerHTML.trim() ===
+			"Settings"
+		) {
+			alert("You can only have one Settings window open.");
+			return;
+		}
+	}
+	const content = `
+	<div class="window-content">
+		<form onsubmit="changeBackground(event)">
+			<input type="file" id="newImage" name="filename" autocomplete="off"><input type="submit"
+				value="Set Background">
+		</form>
+	</div>`;
+
+	newWindow(content, "Settings", `<i class="fa-solid fa-gear"></i>`);
 }
 
+function changeBackground(e) {
+	e.preventDefault();
+
+	let file = document.getElementById("newImage").files[0];
+
+	if (file) {
+		let reader = new FileReader();
+
+		reader.onload = function (e) {
+			let imageUrl = e.target.result;
+
+			document.body.style.backgroundImage = "url('" + imageUrl + "')";
+		};
+
+		reader.readAsDataURL(file);
+	}
+}
 // TODO:
 // windows resize from all sides and corners
-
-// initCBC();
 
 const windows = document.getElementsByClassName("window");
 const toolBarH = document.getElementById("toolbar").clientHeight;
 
 for (let i = 0; i < windows.length; i++) {
-	// console.log(i);
 	dragElement(windows[i]);
 }
 
-alert(`
-Hello,
-This project is not finished yet; however I have left here 
-a small demo (if you can even call it a demo) which has 
-all the features that have been implemented as of now.
+// Settings
+// change background,
 
-Features:
-  - Tabs:
-	- moveable/resizable
-	- opening/closing
-	- minimize/maximize functions
-	- snapping to cover a half/quarter the screen
-  - Applications:
-	- Command Based Console (CBC)
-	- Notepad
-  - CBC:
-	- command line interface with functions to
-	   navigate and make/delete files and directories
-	- network and some other command not implemented yet
-	- type "help" to get started
-  - Notepad:
-	- basic notepad where you can write notes
-	- saves text when minimized
+// alert(`
+// Hello,
+// This project is not finished yet; however I have left here
+// a small demo (if you can even call it a demo) which has
+// all the features that have been implemented as of now.
 
-`);
+// Features:
+//   - Tabs:
+// 	- moveable/resizable
+// 	- opening/closing
+// 	- minimize/maximize functions
+// 	- snapping to cover a half/quarter the screen
+//   - Applications:
+// 	- Command Based Console (CBC)
+// 	- Notepad
+//   - CBC:
+// 	- command line interface with functions to
+// 	   navigate and make/delete files and directories
+// 	- network and some other command not implemented yet
+// 	- type "help" to get started
+//   - Notepad:
+// 	- basic notepad where you can write notes
+// 	- saves text when minimized
+
+// `);
