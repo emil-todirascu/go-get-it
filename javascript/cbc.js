@@ -283,6 +283,7 @@ function handleList() {
 	const children = currentDirectory.children;
 	if (children.length === 0) {
 		outputCommand("no files or directories");
+		return;
 	}
 	for (let child of children) {
 		outputCommand(child.value);
@@ -326,13 +327,18 @@ function handleExit() {
 }
 
 function handleMake(fileName) {
+	if (!fileName) {
+		outputCommand("missing file name");
+		return;
+	}
 	if (currentDirectory.hasChild(fileName)) {
 		outputCommand(`"${fileName}" already exists`);
-	} else {
-		const newFile = new TreeNodeFile(fileName);
-		currentDirectory.addChild(newFile);
-		outputCommand(`"${fileName}" created`);
+		return;
 	}
+
+	const newFile = new TreeNodeFile(fileName);
+	currentDirectory.addChild(newFile);
+	outputCommand(`"${fileName}" created`);
 }
 
 function handleOpen(fileName) {
@@ -353,11 +359,12 @@ function handleOpen(fileName) {
 function handleMakedir(directory) {
 	if (currentDirectory.hasChild(directory)) {
 		outputCommand(`"${directory}" already exists`);
-	} else {
-		const newDirectory = new TreeNodeFolder(directory);
-		currentDirectory.addChild(newDirectory);
-		outputCommand(`"${directory}" created`);
+		return;
 	}
+
+	const newDirectory = new TreeNodeFolder(directory);
+	currentDirectory.addChild(newDirectory);
+	outputCommand(`"${directory}" created`);
 }
 
 function handleOpendir(directory) {
@@ -381,18 +388,16 @@ function handleOpendir(directory) {
 
 function handleBackdir() {
 	if (currentDirectory.value === ":root") {
+		outputCommand("cannot go back from root");
 		return;
-	} else {
-		currentDirectory = currentDirectory.parent;
-
-		const directory = currentDirectory.value;
-		path = directoryElement.innerText;
-		while (path.includes("/")) {
-			path = path.substring(0, path.lastIndexOf("/"));
-		}
-
-		directoryElement.innerText = path;
 	}
+	currentDirectory = currentDirectory.parent;
+	path = directoryElement.innerText;
+	while (path.includes("/")) {
+		path = path.substring(0, path.lastIndexOf("/"));
+	}
+
+	directoryElement.innerText = path;
 }
 
 function handleMove(fileName, newDirectory) {
