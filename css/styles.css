@@ -184,13 +184,8 @@ a {
 }
 
 .mini-apps {
-	/* margin-left: auto; */
 	display: flex;
-	/* align-items: center; */
-	/* max-width: 100%; */
 	overflow: hidden;
-
-	/* gap: 0.3rem; */
 }
 
 .mini-app {
@@ -207,10 +202,6 @@ a {
 	height: 100%;
 	padding: 0.6rem 1rem 0rem 0.6rem;
 	display: flex;
-	max-width: 0rem;
-
-	transition: opacity 500ms, max-width 300ms;
-	opacity: 0;
 }
 
 .mini-app:hover {

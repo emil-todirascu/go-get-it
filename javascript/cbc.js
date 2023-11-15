@@ -363,7 +363,7 @@ function handleMakedir(directory) {
 	}
 
 	const newDirectory = new TreeNodeFolder(directory);
-	currentDirectory.addChild(newDirectory);
+	setRelationship(currentDirectory, newDirectory);
 	outputCommand(`"${directory}" created`);
 }
 
@@ -393,7 +393,7 @@ function handleBackdir() {
 	}
 	currentDirectory = currentDirectory.parent;
 	path = directoryElement.innerText;
-	while (path.includes("/")) {
+	if (path.includes("/")) {
 		path = path.substring(0, path.lastIndexOf("/"));
 	}
 

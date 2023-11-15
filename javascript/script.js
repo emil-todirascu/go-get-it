@@ -239,23 +239,26 @@ function newWindow(content, tabName, icon) {
 const miniApps = document.getElementById("mini-apps");
 function newMiniWindow(title, icon, id, content) {
 	const app = `
-    <button class="mini-app" id="mini-app${id}" onclick="openMiniWindow(${id})">
-        ${icon}
-        <div class="mini-app-text">
-            ${title}
-        </div>
-        <div class="mini-app-content">
-        ${content}
-        </div>
-    </button>
-    `;
+	  <button class="mini-app" id="mini-app${id}" onclick="openMiniWindow(${id})">
+		  ${icon}
+		  <div class="mini-app-text">
+			  ${title}
+		  </div>
+		  <div class="mini-app-content">
+		  ${content}
+		  </div>
+	  </button>
+	  `;
 	miniApps.insertAdjacentHTML("beforeend", app);
 	const win = document.getElementById(`mini-app${id}`);
+	win.style.transition = "opacity 500ms, max-width 500ms";
+	win.style.opacity = "0";
+	win.style.maxWidth = "0px";
 
 	window.setTimeout(function () {
 		win.style.opacity = "1";
-		win.style.maxWidth = "12rem";
-	}, 1);
+		win.style.maxWidth = "15rem";
+	}, 0);
 }
 
 function openMiniWindow(id) {
@@ -308,6 +311,12 @@ function openCBC() {
 	</div>`;
 	newWindow(content, "CBC", `<i class="fa-solid fa-terminal"></i>`);
 	initCBC();
+}
+
+function openDecryptor() {
+	const content = "";
+
+	newWindow(content, "Decryptor", `<i class="fa-solid fa-unlock-keyhole"></i>`);
 }
 
 function openSettings() {
