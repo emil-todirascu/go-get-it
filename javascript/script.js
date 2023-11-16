@@ -170,6 +170,7 @@ function minWindow(id) {
 	} else {
 		content = win.children[1].innerHTML.trim();
 	}
+	console.log(content);
 
 	win.style.transition =
 		"top 500ms, bottom 500ms, left 500ms, width 500ms, height 500ms, opacity 300ms, min-width 500ms, min-height 500ms";
@@ -199,7 +200,7 @@ function newWindow(content, tabName, icon) {
 	winID++;
 
 	const win = `
-    <div class="window" id="window${winID}">
+    <div class="window" id="window${winID}" style="z-index: 100000">
         <div class="window-top">
             <div class="window-bar" id="window${winID}-bar">
                 <div class="window-icon">
@@ -237,18 +238,19 @@ function newWindow(content, tabName, icon) {
 }
 
 const miniApps = document.getElementById("mini-apps");
+let windowInformation = {};
 function newMiniWindow(title, icon, id, content) {
+	windowInformation[id] = content;
+
 	const app = `
 	  <button class="mini-app" id="mini-app${id}" onclick="openMiniWindow(${id})">
 		  ${icon}
 		  <div class="mini-app-text">
-			  ${title}
-		  </div>
-		  <div class="mini-app-content">
-		  ${content}
+			${title}
 		  </div>
 	  </button>
 	  `;
+	console.log(app);
 	miniApps.insertAdjacentHTML("beforeend", app);
 	const win = document.getElementById(`mini-app${id}`);
 	win.style.transition = "opacity 500ms, max-width 500ms";
@@ -265,7 +267,7 @@ function openMiniWindow(id) {
 	const win = document.getElementById(`mini-app${id}`);
 	const icon = win.children[0].outerHTML;
 	const title = win.children[1].textContent.trim();
-	const content = win.children[2].innerHTML;
+	const content = windowInformation[id];
 
 	newWindow(content, title, icon);
 	win.remove();
@@ -314,7 +316,46 @@ function openCBC() {
 }
 
 function openDecryptor() {
-	const content = "";
+	for (let i = 0; i < miniApps.children.length; i++) {
+		if (miniApps.children[i].children[1].innerHTML.trim() === "Decryptor") {
+			openMiniWindow(miniApps.children[i].id.substring(8));
+			alert("You can only have one Decryptor open.");
+			return;
+		}
+	}
+
+	for (let i = 0; i < windows.length; i++) {
+		if (
+			windows[i].children[0].children[0].children[1].innerHTML.trim() ===
+			"Decryptor"
+		) {
+			alert("You can only have one Decryptor open.");
+			return;
+		}
+	}
+	const content = `
+	<div class="decryptor-content">
+		<div class="decryptor-top">
+			<div class="decryptor-input-wrapper">
+				<input type="text" id="encrypted-message" class="decryptor-input" autocomplete="off">
+			</div>
+			<button class="decryptor-button" onclick="decrypt()">Decrypt</button>
+		</div>
+		<div class="decryptor-mid">
+			<div class="decrypt-caesar">
+				<div class="caesar-text">Caesar</div>
+				<div class="caesar-result"></div>
+			</div>
+			<div class="decrypt-vigenere">
+				<div class="vigenere-text">Vigenere</div>
+				<div class="vigenere-result"></div>
+			</div>
+			<div class="decrypt-base64">
+				<div class="base64-text">Base64</div>
+				<div class="base64-result"></div>
+			</div>
+		</div>
+	</div>`;
 
 	newWindow(content, "Decryptor", `<i class="fa-solid fa-unlock-keyhole"></i>`);
 }
@@ -365,6 +406,72 @@ function changeBackground(e) {
 		reader.readAsDataURL(file);
 	}
 }
+
+function decryptCaesar() {
+	let encryptedText = document.getElementById("encrypted-message").value;
+	let decryptedText = ""; // Perform Caesar decryption logic here
+	// For example, assuming a shift of 3 for demonstration purposes
+	for (let i = 0; i < encryptedText.length; i++) {
+		let charCode = encryptedText.charCodeAt(i);
+		if (charCode >= 65 && charCode <= 90) {
+			decryptedText += String.fromCharCode(((charCode - 65 + 23) % 26) + 65);
+		} else if (charCode >= 97 && charCode <= 122) {
+			decryptedText += String.fromCharCode(((charCode - 97 + 23) % 26) + 97);
+		} else {
+			decryptedText += encryptedText[i];
+		}
+	}
+	document.querySelector(".caesar-result").innerText = decryptedText;
+}
+
+function decryptVigenere() {
+	let encryptedText = document.getElementById("encrypted-message").value;
+	let decryptedText = "";
+	let key = "KEY";
+	let keyIndex = 0;
+
+	for (let i = 0; i < encryptedText.length; i++) {
+		let charCode = encryptedText.charCodeAt(i);
+		let keyChar = key.charCodeAt(keyIndex % key.length);
+
+		let decryptedCharCode;
+
+		if (charCode >= 65 && charCode <= 90) {
+			decryptedCharCode = ((charCode - 65 - (keyChar - 65) + 26) % 26) + 65;
+		} else if (charCode >= 97 && charCode <= 122) {
+			decryptedCharCode = ((charCode - 97 - (keyChar - 65) + 26) % 26) + 97;
+		} else {
+			decryptedCharCode = charCode;
+		}
+
+		decryptedText += String.fromCharCode(decryptedCharCode);
+
+		if (/[A-Za-z]/.test(String.fromCharCode(charCode))) {
+			keyIndex++;
+		}
+	}
+
+	document.querySelector(".vigenere-result").innerText = decryptedText;
+}
+
+function decryptBase64() {
+	let encryptedText = document.getElementById("encrypted-message").value;
+	let decryptedText = "";
+	try {
+		decryptedText = atob(encryptedText);
+	} catch {
+		document.querySelector(".base64-result").innerText = " ";
+	}
+	document.querySelector(".base64-result").innerText = decryptedText;
+}
+
+function decrypt() {
+	const encryptedMessage = document.getElementById("encrypted-message").value;
+
+	decryptCaesar(encryptedMessage);
+	decryptVigenere(encryptedMessage);
+	decryptBase64(encryptedMessage);
+}
 // TODO:
 // windows resize from all sides and corners
 
@@ -375,8 +482,7 @@ for (let i = 0; i < windows.length; i++) {
 	dragElement(windows[i]);
 }
 
-// Settings
-// change background,
+// TODO DECRYPTOR > CODE CLEANUP
 
 // alert(`
 // Hello,
