@@ -64,8 +64,6 @@ let currentDirectory;
 let out;
 
 function initCBC() {
-	console.log("initializing CBC");
-
 	fileDirectory = new TreeNodeFolder(":root");
 	files = new TreeNodeFolder("files");
 	downloads = new TreeNodeFolder("downloads");
@@ -381,9 +379,6 @@ function handleOpendir(directory) {
 	const childDirectory = currentDirectory.getChild(directory);
 	currentDirectory = childDirectory;
 	directoryElement.insertAdjacentText("beforeend", "/" + directory);
-
-	// console.log("current directory:");
-	// console.log(currentDirectory);
 }
 
 function handleBackdir() {
@@ -450,7 +445,6 @@ function handleDel(fileName) {
 	}
 
 	if (!awaitingConfirmation) {
-		console.log("awaiting confirmation");
 		commandAwaitingConfirmation = function () {
 			handleDel(fileName);
 		};
