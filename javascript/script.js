@@ -170,7 +170,6 @@ function minWindow(id) {
 	} else {
 		content = win.children[1].innerHTML.trim();
 	}
-	console.log(content);
 
 	win.style.transition =
 		"top 500ms, bottom 500ms, left 500ms, width 500ms, height 500ms, opacity 300ms, min-width 500ms, min-height 500ms";
@@ -250,7 +249,6 @@ function newMiniWindow(title, icon, id, content) {
 		  </div>
 	  </button>
 	  `;
-	console.log(app);
 	miniApps.insertAdjacentHTML("beforeend", app);
 	const win = document.getElementById(`mini-app${id}`);
 	win.style.transition = "opacity 500ms, max-width 500ms";
