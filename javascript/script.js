@@ -55,7 +55,6 @@ function dragElement(element) {
 			element.style.top = newTopPosition + "px";
 		}
 		element.style.left = newLeftPosition + "px";
-		console.log(mouseX, mouseY);
 	}
 
 	function closeDragElement() {
@@ -355,7 +354,6 @@ function openCBC() {
 	`;
 	newWindow(content, "CBC", `<i class="fa-solid fa-terminal"></i>`);
 	initCBC();
-	// TODO - FIX CBC SAVING STATE
 }
 
 function openDecryptor() {
@@ -408,89 +406,6 @@ function openSettings() {
 	`;
 
 	newWindow(content, "Settings", `<i class="fa-solid fa-gear"></i>`);
-}
-
-function changeBackground(e) {
-	e.preventDefault();
-
-	const file = document.getElementById("newImage").files[0];
-
-	if (file) {
-		const reader = new FileReader();
-
-		reader.onload = function (e) {
-			const imageUrl = e.target.result;
-
-			document.body.style.backgroundImage = "url('" + imageUrl + "')";
-		};
-
-		reader.readAsDataURL(file);
-	}
-}
-
-function decryptCaesar() {
-	let encryptedText = document.getElementById("encrypted-message").value;
-	let decryptedText = "";
-	for (let i = 0; i < encryptedText.length; i++) {
-		let charCode = encryptedText.charCodeAt(i);
-		if (charCode >= 65 && charCode <= 90) {
-			decryptedText += String.fromCharCode(((charCode - 65 + 23) % 26) + 65);
-		} else if (charCode >= 97 && charCode <= 122) {
-			decryptedText += String.fromCharCode(((charCode - 97 + 23) % 26) + 97);
-		} else {
-			decryptedText += encryptedText[i];
-		}
-	}
-	document.querySelector(".caesar-result").innerText = decryptedText;
-}
-
-function decryptVigenere() {
-	let encryptedText = document.getElementById("encrypted-message").value;
-	let decryptedText = "";
-	let key = "KEY";
-	let keyIndex = 0;
-
-	for (let i = 0; i < encryptedText.length; i++) {
-		let charCode = encryptedText.charCodeAt(i);
-		let keyChar = key.charCodeAt(keyIndex % key.length);
-
-		let decryptedCharCode;
-
-		if (charCode >= 65 && charCode <= 90) {
-			decryptedCharCode = ((charCode - 65 - (keyChar - 65) + 26) % 26) + 65;
-		} else if (charCode >= 97 && charCode <= 122) {
-			decryptedCharCode = ((charCode - 97 - (keyChar - 65) + 26) % 26) + 97;
-		} else {
-			decryptedCharCode = charCode;
-		}
-
-		decryptedText += String.fromCharCode(decryptedCharCode);
-
-		if (/[A-Za-z]/.test(String.fromCharCode(charCode))) {
-			keyIndex++;
-		}
-	}
-
-	document.querySelector(".vigenere-result").innerText = decryptedText;
-}
-
-function decryptBase64() {
-	let encryptedText = document.getElementById("encrypted-message").value;
-	let decryptedText = "";
-	try {
-		decryptedText = atob(encryptedText);
-	} catch {
-		document.querySelector(".base64-result").innerText = " ";
-	}
-	document.querySelector(".base64-result").innerText = decryptedText;
-}
-
-function decrypt() {
-	const encryptedMessage = document.getElementById("encrypted-message").value;
-
-	decryptCaesar(encryptedMessage);
-	decryptVigenere(encryptedMessage);
-	decryptBase64(encryptedMessage);
 }
 // TODO:
 // windows resize from all sides and corners
