@@ -97,7 +97,7 @@ function newCommand(e) {
 	commandsElement = document.getElementById(`cbc-commands`);
 	if (inputValue !== inputValueSanitized) {
 		outputCommand(
-			"error: command cannot contain any of the following chracters:&<>\"'./"
+			"error: command cannot contain any of the following chracters: &<>\"'./"
 		);
 		form.reset();
 		return;

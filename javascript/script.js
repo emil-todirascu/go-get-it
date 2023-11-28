@@ -133,7 +133,7 @@ function delWindow(id) {
 	const windowElement = document.getElementById("window" + id);
 
 	windowElement.style.transition =
-		"width 500ms, height 500ms, top 500ms, left 500ms, opacity 300ms";
+		"width 600ms, height 600ms, top 600ms, left 600ms, border-radius 600ms, opacity 200ms";
 
 	windowElement.style.overflow = "hidden";
 	windowElement.style.minHeight = "0px";
@@ -154,7 +154,7 @@ function delWindow(id) {
 	window.setTimeout(function () {
 		windowElement.style.transition = "none";
 		windowElement.remove();
-	}, 500);
+	}, 600);
 }
 
 function maxWindow(id) {
@@ -397,45 +397,19 @@ function openSettings() {
 		return;
 	}
 	const content = `
-	<div class="window-content">
-		<form onsubmit="changeBackground(event)">
-			<input type="file" id="newImage" name="filename" autocomplete="off"><input type="submit"
-				value="Set Background">
-		</form>
-	</div>
+	<form onsubmit="changeBackground(event)">
+		<input type="file" id="newImage" name="filename" autocomplete="off"><input type="submit" value="Set Background">
+	</form>
 	`;
 
 	newWindow(content, "Settings", `<i class="fa-solid fa-gear"></i>`);
 }
-// TODO:
-// windows resize from all sides and corners
+
+function openChat() {
+	const content = ``;
+	newWindow(content, "Chat", `<i class="fa-solid fa-comment"></i>`);
+}
 
 for (let i = 0; i < windowElements.length; i++) {
 	dragElement(windowElements[i]);
 }
-
-// alert(`
-// Hello,
-// This project is not finished yet; however I have left here
-// a small demo (if you can even call it a demo) which has
-// all the features that have been implemented as of now.
-
-// Features:
-//   - Tabs:
-// 	- moveable/resizable
-// 	- opening/closing
-// 	- minimize/maximize functions
-// 	- snapping to cover a half/quarter the screen
-//   - Applications:
-// 	- Command Based Console (CBC)
-// 	- Notepad
-//   - CBC:
-// 	- command line interface with functions to
-// 	   navigate and make/delete files and directories
-// 	- network and some other command not implemented yet
-// 	- type "help" to get started
-//   - Notepad:
-// 	- basic notepad where you can write notes
-// 	- saves text when minimized
-
-// `);
