@@ -21,16 +21,16 @@ body {
 }
 
 body {
-	/* background-image: linear-gradient(
+	background-image: linear-gradient(
 		to right top,
 		#3232ff,
 		#3b2cc3,
 		#38268b,
 		#2e2056,
 		#1e1927
-	); */
-	background-image: url(../assets/windows-xp.jpg);
-	background-size: cover;
+	);
+	/* background-image: url(../assets/windows-xp.jpg);
+	background-size: cover; */
 	color: white;
 }
 
@@ -429,6 +429,8 @@ a {
 	display: flex;
 	flex-direction: column;
 	line-height: normal;
+
+	padding-bottom: 0.5rem;
 }
 
 .chat-message {
@@ -457,6 +459,29 @@ a {
 }
 
 .chat-bot {
-	/* border-top: white solid 1px; */
+	border-top: white solid 1px;
 	width: 100%;
+	display: flex;
+	justify-content: space-around;
+}
+
+.chat-option {
+	border: 1px solid white;
+	border-radius: 1rem;
+	border-bottom-right-radius: 0em;
+
+	padding: 0.5rem;
+	margin: 1rem 0;
+
+	background-color: black;
+	color: white;
+
+	font: inherit;
+	line-height: normal;
+}
+
+.chat-option:hover {
+	cursor: pointer;
+	color: rgb(0, 255, 0);
+	border-color: rgb(0, 255, 0);
 }

@@ -3,6 +3,7 @@ const windowsElement = document.getElementById("windows");
 const toolBarHeight = document.getElementById("toolbar").clientHeight;
 const miniAppsElement = document.getElementById("mini-apps");
 
+let maxZIndex = 0;
 function dragElement(element) {
 	let mouseMoveX = 0,
 		mouseMoveY = 0,
@@ -12,17 +13,9 @@ function dragElement(element) {
 
 	document.getElementById(element.id).onmousedown = focusWindow;
 
-	function focusWindow(e) {
-		let maxZIndex = 0;
-		for (let i = 0; i < windowElements.length; i++) {
-			let currentZIndex = parseInt(windowElements[i].style.zIndex);
-
-			if (currentZIndex > maxZIndex) {
-				maxZIndex = currentZIndex;
-			}
-		}
-
-		this.style.zIndex = maxZIndex + 1;
+	function focusWindow() {
+		maxZIndex++;
+		this.style.zIndex = maxZIndex;
 	}
 
 	function dragMouseDown(e) {
@@ -229,7 +222,7 @@ let windowID = 100;
 function newWindow(content, tabName, icon) {
 	windowID++;
 	const windowHTML = `
-    <div class="window" id="window${windowID}" style="z-index: 100000">
+    <div class="window" id="window${windowID}" style="z-index: ${++maxZIndex}">
         <div class="window-top">
             <div class="window-bar" id="window${windowID}-bar">
                 <div class="window-icon">
@@ -408,6 +401,7 @@ function openSettings() {
 function openChat() {
 	const content = ``;
 	newWindow(content, "Chat", `<i class="fa-solid fa-comment"></i>`);
+	initChat();
 }
 
 for (let i = 0; i < windowElements.length; i++) {

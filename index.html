@@ -7,8 +7,8 @@
     <script src="javascript/cbc.js" defer></script>
     <script src="javascript/decryptor.js" defer></script>
     <script src="javascript/setings.js" defer></script>
+    <script src="javascript/chat.js" defer></script>
     <script src="https://kit.fontawesome.com/0dbcfdfdb3.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
     <title>go-get-it</title>
 </head>
 
@@ -49,19 +49,19 @@
                             Cody
                         </div>
                         <div class="chat-mid">
-                            <div class="chat-messages">
-                                <div class="message-coming">hey</div>
-                                <div class="message-going">hello wassup</div>
-                                <div class="message-coming">here, do this</div>
-                                <div class="message-coming">wow do this very long thing ok wow nic o amazing</div>
-                                <div class="message-coming">wow do this very very again ag very ag very again ag nice
-                                    wowee amazing</div>
-
-                                <div class="message-coming">trust me it's amazing</div>
+                            <div class="chat-messages" id="chat-messages">
+                                <div class="message-coming">text text text</div>
+                                <div class="message-going">text text text</div>
+                                <div class="message-coming">text text</div>
+                                <div class="message-coming">text text text text text text text text text text text text
+                                    text text text</div>
+                                <div class="message-coming">text text text text text text text</div>
                             </div>
                         </div>
-                        <div class="chat-bot">
-                            <div class="chat-option"></div>
+                        <div class="chat-bot" id="options">
+                            <button class="chat-option" type="button" onclick="chooseOption(0)">whats his name</button>
+                            <button class="chat-option" type="button" onclick="chooseOption(1)">whats his ip</button>
+                            <button class="chat-option" type="button" onclick="chooseOption(2)">on it</button>
                         </div>
                     </div>
                 </div>
