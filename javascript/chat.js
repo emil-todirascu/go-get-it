@@ -9,15 +9,28 @@ function initChat() {
 
 function chooseOption(option) {
 	const height = optionsElement.offsetHeight;
-
-	optionsElement.style.transition = "margin 0.3s";
 	optionsElement.style.marginBottom = "-" + height + "px";
 
 	window.setTimeout(function () {
-		optionsElement.style.transition = "none";
-		optionsElement.style.display = "none";
 		const message = optionsElement.children[option].innerHTML;
 		addMessageGoing(message);
+	}, 300);
+}
+
+function showOptions(options) {
+	optionsElement.innerHTML = "";
+	for (let i = 0; i < options.length; i++) {
+		const optionElement = document.createElement("button");
+		optionElement.classList.add("chat-option");
+		optionElement.innerHTML = options[i];
+		optionElement.setAttribute("onclick", "chooseOption(" + i + ")");
+		optionsElement.appendChild(optionElement);
+	}
+
+	optionsElement.style.marginBottom = "0px";
+
+	window.setTimeout(function () {
+		chatElement.scrollTop = chatElement.scrollHeight;
 	}, 300);
 }
 
@@ -37,6 +50,8 @@ function addMessageGoing(message) {
 	window.setTimeout(function () {
 		messageGoingElement.style.transition = "none";
 	}, 300);
+
+	receiveMessage(message);
 }
 
 function addMessageComing(message) {
@@ -54,7 +69,15 @@ function addMessageComing(message) {
 
 	window.setTimeout(function () {
 		messageComingElement.style.transition = "none";
+		showOptions(["Option 1", "Option 2", "Option 3"]);
 	}, 300);
+}
+
+expectingMessages = {};
+function receiveMessage(message) {
+	window.setTimeout(function () {
+		addMessageComing(message);
+	}, 1000);
 }
 
 // temp

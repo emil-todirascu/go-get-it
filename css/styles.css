@@ -463,6 +463,8 @@ a {
 	width: 100%;
 	display: flex;
 	justify-content: space-around;
+
+	transition: margin 0.3s;
 }
 
 .chat-option {
