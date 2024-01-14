@@ -408,7 +408,7 @@ function handleBackdir() {
 		return;
 	}
 	currentDirectory = currentDirectory.parent;
-	path = directoryElement.innerText;
+	let path = directoryElement.innerText;
 	if (path.includes("/")) {
 		path = path.substring(0, path.lastIndexOf("/"));
 	}
