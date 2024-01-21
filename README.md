@@ -9,11 +9,15 @@ Features:
 	- snapping to cover a half/quarter the screen
   - Applications:
 	- Command Based Console (CBC)
+	- Chat
 	- Notepad
   - CBC:
-	- command line interface with functions to navigate and make/delete files and directories
+	- command line interface with functions to
+	   navigate and make/delete files and directories
 	- network and some other command not implemented yet
 	- type "help" to get started
+  - Chat:
+	- start of the conversation with Cody
   - Notepad:
 	- basic notepad where you can write notes
 	- saves text when minimized
