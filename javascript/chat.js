@@ -87,7 +87,6 @@ function receiveMessageCody(message) {
 }
 
 function receiveMessageHuman(message) {
-	console.log(message);
 	if (messagesHuman.has(message)) {
 		showOptions(messagesHuman.get(message));
 	}
