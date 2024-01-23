@@ -1,5 +1,5 @@
 ### go-get-it
-go-get-it is single player browser game in which you play as hacker.
+go-get-it is a single player browser game in which you play as hacker.
 
 This project is not finished yet; however I have left here the features that have been implemented as of now.
 
