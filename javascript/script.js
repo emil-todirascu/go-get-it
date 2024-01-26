@@ -399,7 +399,22 @@ function openSettings() {
 }
 
 function openChat() {
-	const content = ``;
+	const content = `
+	<div class="chat-content">
+		<div class="chat-top">
+			Cody
+		</div>
+		<div class="chat-mid">
+			<div class="chat-messages" id="chat-messages">
+			</div>
+		</div>
+		<div class="chat-bot" id="options">
+			<button class="chat-option" onclick="chooseOption(0)"></button>
+			<button class="chat-option" onclick="chooseOption(1)"></button>
+			<button class="chat-option" onclick="chooseOption(2)"></button>
+		</div>
+	</div>
+	`;
 	newWindow(content, "Chat", `<i class="fa-solid fa-comment"></i>`);
 	initChat();
 }

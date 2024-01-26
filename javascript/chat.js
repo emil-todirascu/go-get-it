@@ -6,7 +6,6 @@ const player = new Player();
 function initChat() {
 	optionsElement = document.getElementById("options");
 	chatElement = document.getElementById("chat-messages");
-	console.log("Chat initialized");
 	cody.startChat();
 }
 
@@ -75,6 +74,3 @@ function addMessageCody(message) {
 	}, 300);
 	player.receiveMessage(message);
 }
-
-// temp
-initChat();
