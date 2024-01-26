@@ -47,7 +47,7 @@ class Cody {
 	}
 
 	startChat() {
-		addMessageComing(this.getRandomOption(["yo", "hello", "hey"]));
+		addMessageCody(this.getRandomOption(["yo", "hello", "hey"]));
 	}
 
 	getRandomOption(options) {
@@ -55,8 +55,9 @@ class Cody {
 	}
 
 	send(options, time) {
+		const message = this.getRandomOption(options);
 		window.setTimeout(function () {
-			addMessageComing(getRandomOption(options));
+			addMessageCody(message);
 		}, time);
 	}
 }
@@ -96,5 +97,5 @@ const codQuest141 = new CodyMessage(["one sec"], null);
 const codQuest142 = new CodyMessage(["its 110.210.112.54"], null);
 codQuest141.next = codQuest142;
 
-const codQuest15 = new CodyMessage(["good luck", "ok"], null);
+const codQuest15 = new CodyMessage(["good luck", "ok, good luck"], null);
 codQuest142.next = codQuest15;
