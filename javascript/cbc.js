@@ -469,9 +469,8 @@ function handleDel(fileName) {
 		outputCommand(`"${fileName}" does not exist`);
 		return;
 	}
-
 	if (!awaitingConfirmation) {
-		commandAwaitingConfirmation = handleDel(fileName);
+		commandAwaitingConfirmation = handleDel.bind(null, fileName);
 		requestConfirmation(`delete "${fileName}"`);
 		return;
 	}
