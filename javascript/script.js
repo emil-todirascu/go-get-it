@@ -197,8 +197,7 @@ function minWindow(id) {
 		windowContent = windowElement.children[1].innerHTML.trim();
 	}
 
-	windowElement.style.transition =
-		"top 500ms, bottom 500ms, left 500ms, width 500ms, height 500ms, opacity 300ms, min-width 500ms, min-height 500ms";
+	windowElement.style.transition = "all 300ms ease-in";
 
 	windowElement.style.minHeight = "0px";
 	windowElement.style.minWidth = "0px";
@@ -213,7 +212,6 @@ function minWindow(id) {
 	window.setTimeout(function () {
 		windowElement.style.transition = "none";
 		newMiniWindow(windowTitle, windowIcon, id, windowContent);
-		// windowElement.remove();
 	}, 300);
 }
 
@@ -255,7 +253,26 @@ function newWindow(content, tabName, icon) {
     </div>
     `;
 	windowsElement.insertAdjacentHTML("beforeend", windowHTML);
-	dragElement(document.getElementById("window" + windowID));
+	const windowElement = document.getElementById("window" + windowID);
+	dragElement(windowElement);
+
+	windowElement.style.transition = "all 300ms ease-out";
+
+	window.setTimeout(function () {
+		windowElement.style.minHeight = "20rem";
+		windowElement.style.minWidth = "20rem";
+		windowElement.style.opacity = "1";
+
+		windowElement.style.top = "calc(50% - 10rem)";
+		windowElement.style.left = "calc(50% - 15rem)";
+		windowElement.style.width = "30rem";
+		windowElement.style.height = "20rem";
+		windowElement.style.zIndex = ++maxZIndex;
+	}, 10);
+
+	window.setTimeout(function () {
+		windowElement.style.transition = "none";
+	}, 300);
 }
 
 let windowInformation = {};
@@ -272,7 +289,7 @@ function newMiniWindow(title, icon, id, content) {
 	miniAppsElement.insertAdjacentHTML("beforeend", miniAppHTML);
 
 	const miniAppElement = document.getElementById(`mini-app${id}`);
-	miniAppElement.style.transition = "opacity 500ms, max-width 500ms";
+	miniAppElement.style.transition = "all 500ms";
 	miniAppElement.style.opacity = "0";
 	miniAppElement.style.maxWidth = "0px";
 
@@ -283,18 +300,23 @@ function newMiniWindow(title, icon, id, content) {
 }
 
 function openMiniWindow(id) {
-	console.log("openMiniWindow", id);
 	const miniAppElement = document.getElementById(`mini-app${id}`);
-
 	const windowElement = document.getElementById("window" + id);
-	openExistingWindow(windowElement);
 
-	miniAppElement.remove();
+	miniAppElement.style.transition = "all 200ms";
+	miniAppElement.style.opacity = "0";
+	miniAppElement.style.maxWidth = "0px";
+	miniAppElement.style.paddingLeft = "0px";
+	miniAppElement.style.paddingRight = "0px";
+
+	window.setTimeout(function () {
+		miniAppElement.remove();
+		openExistingWindow(windowElement);
+	}, 200);
 }
 
 function openExistingWindow(windowElement) {
-	windowElement.style.transition =
-		"top 500ms, bottom 500ms, left 500ms, width 500ms, height 500ms, opacity 300ms, min-width 500ms, min-height 500ms";
+	windowElement.style.transition = "all 300ms ease-out";
 
 	windowElement.style.minHeight = "20rem";
 	windowElement.style.minWidth = "20rem";
@@ -308,7 +330,7 @@ function openExistingWindow(windowElement) {
 
 	window.setTimeout(function () {
 		windowElement.style.transition = "none";
-	}, 500);
+	}, 300);
 }
 
 function checkDuplicateWindow(windowName) {
