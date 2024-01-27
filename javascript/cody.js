@@ -73,7 +73,7 @@ const codGetToWork = new CodyMessage(
 	[
 		"ima get working lmk when youre ready",
 		"message me when you can help, im starting work",
-		"ok, im gonna starting work, msg me when you wanna start",
+		"ok, im gonna start work, msg me when you wanna start",
 	],
 	null
 );

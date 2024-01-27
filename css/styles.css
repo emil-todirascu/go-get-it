@@ -519,6 +519,6 @@ a {
 
 .chat-option:hover {
 	cursor: pointer;
-	color: rgb(0, 255, 0);
-	border-color: rgb(0, 255, 0);
+	/* color: var(--chat); */
+	border-color: var(--chat);
 }

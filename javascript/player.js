@@ -11,7 +11,7 @@ class Player {
 
 			["ima get working lmk when youre ready", humStart],
 			["message me when you can help, im starting work", humStart],
-			["ok, im gonna starting work, msg me when you wanna start", humStart],
+			["ok, im gonna start work, msg me when you wanna start", humStart],
 
 			["his username is arnold276", humQuest14],
 		]);
