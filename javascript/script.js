@@ -128,7 +128,7 @@ function delWindow(id) {
 	windowElement.style.transition =
 		"width 600ms, height 600ms, top 600ms, left 600ms, border-radius 600ms, opacity 200ms";
 
-	windowElement.style.overflow = "hidden";
+	// windowElement.style.overflow = "hidden";
 	windowElement.style.minHeight = "0px";
 	windowElement.style.minWidth = "0px";
 	windowElement.style.top =
@@ -200,7 +200,6 @@ function minWindow(id) {
 	windowElement.style.transition =
 		"top 500ms, bottom 500ms, left 500ms, width 500ms, height 500ms, opacity 300ms, min-width 500ms, min-height 500ms";
 
-	windowElement.style.overflow = "hidden";
 	windowElement.style.minHeight = "0px";
 	windowElement.style.minWidth = "0px";
 	windowElement.style.opacity = "0";
@@ -214,7 +213,7 @@ function minWindow(id) {
 	window.setTimeout(function () {
 		windowElement.style.transition = "none";
 		newMiniWindow(windowTitle, windowIcon, id, windowContent);
-		delWindow(id);
+		// windowElement.remove();
 	}, 300);
 }
 
@@ -280,17 +279,36 @@ function newMiniWindow(title, icon, id, content) {
 	window.setTimeout(function () {
 		miniAppElement.style.opacity = "1";
 		miniAppElement.style.maxWidth = "15rem";
-	}, 0);
+	}, 10);
 }
 
 function openMiniWindow(id) {
+	console.log("openMiniWindow", id);
 	const miniAppElement = document.getElementById(`mini-app${id}`);
-	const icon = miniAppElement.children[0].outerHTML;
-	const title = miniAppElement.children[1].textContent.trim();
-	const content = windowInformation[id];
 
-	newWindow(content, title, icon);
+	const windowElement = document.getElementById("window" + id);
+	openExistingWindow(windowElement);
+
 	miniAppElement.remove();
+}
+
+function openExistingWindow(windowElement) {
+	windowElement.style.transition =
+		"top 500ms, bottom 500ms, left 500ms, width 500ms, height 500ms, opacity 300ms, min-width 500ms, min-height 500ms";
+
+	windowElement.style.minHeight = "20rem";
+	windowElement.style.minWidth = "20rem";
+	windowElement.style.opacity = "1";
+
+	windowElement.style.top = "calc(50% - 10rem)";
+	windowElement.style.left = "calc(50% - 15rem)";
+	windowElement.style.width = "30rem";
+	windowElement.style.height = "20rem";
+	windowElement.style.zIndex = ++maxZIndex;
+
+	window.setTimeout(function () {
+		windowElement.style.transition = "none";
+	}, 500);
 }
 
 function checkDuplicateWindow(windowName) {
@@ -399,6 +417,11 @@ function openSettings() {
 }
 
 function openChat() {
+	const isDuplicate = checkDuplicateWindow("Chat");
+	if (isDuplicate) {
+		alert("You can only have one Chat open.");
+		return;
+	}
 	const content = `
 	<div class="chat-content">
 		<div class="chat-top">
