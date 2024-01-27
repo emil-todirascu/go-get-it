@@ -250,6 +250,10 @@ a {
 	cursor: pointer;
 }
 
+.app:hover > i {
+	transform: scale(1.1);
+}
+
 .fa-terminal {
 	color: var(--cbc);
 }
