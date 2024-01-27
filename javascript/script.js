@@ -188,13 +188,8 @@ function minWindow(id) {
 	const windowTitle = windowElementBar.children[1].innerHTML.trim();
 	const windowIcon = windowElementBar.children[0].innerHTML;
 
-	let windowContent;
-	if (windowTitle === "Notepad") {
-		windowContent = `
-		<textarea name="notepad-text" class="notepad-text">${windowElement.children[1].children[0].value}</textarea>
-		`;
-	} else {
-		windowContent = windowElement.children[1].innerHTML.trim();
+	if (windowElement.style.width === "0px") {
+		return;
 	}
 
 	windowElement.style.transition = "all 300ms ease-in";
