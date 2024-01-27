@@ -18,6 +18,12 @@ body {
 	--gray: rgb(43, 42, 51);
 	--light-gray: rgb(66, 65, 77);
 	--green: rgb(0, 255, 0);
+
+	/* App Colors */
+	--cbc: var(--green);
+	--chat: rgb(0, 0, 255);
+	--decryptor: yellow;
+	--settings: rgb(128, 128, 128);
 }
 
 body {
@@ -225,11 +231,9 @@ a {
 
 .apps {
 	display: flex;
-	/* align-items: center; */
 	max-width: 100%;
 
-	/* gap: 1rem; */
-	/* margin-block: 0.2rem; */
+	background-color: rgb(0, 0, 0, 0.3);
 }
 
 .app {
@@ -244,6 +248,22 @@ a {
 .app:hover {
 	background-color: rgb(0, 0, 0, 0.5);
 	cursor: pointer;
+}
+
+.fa-terminal {
+	color: var(--cbc);
+}
+
+.fa-comment {
+	color: var(--chat);
+}
+
+.fa-unlock-keyhole {
+	color: var(--decryptor);
+}
+
+.fa-gear {
+	color: var(--settings);
 }
 
 /* Notepad */
@@ -367,6 +387,8 @@ a {
 
 .decryptor-input {
 	width: 16rem;
+	background-color: var(--decryptor);
+	border: none;
 }
 
 .decryptor-mid {
@@ -391,6 +413,7 @@ a {
 .vigenere-text,
 .base64-text {
 	width: 10rem;
+	color: var(--decryptor);
 }
 
 .caesar-result,
@@ -417,7 +440,7 @@ a {
 }
 
 .chat-top {
-	border-bottom: white solid 1px;
+	border-bottom: var(--chat) solid 1px;
 }
 
 .chat-mid {
@@ -466,7 +489,7 @@ a {
 }
 
 .chat-bot {
-	border-top: white solid 1px;
+	border-top: var(--chat) solid 1px;
 	width: 100%;
 	display: flex;
 	justify-content: space-around;
