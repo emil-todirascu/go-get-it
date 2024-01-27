@@ -209,9 +209,15 @@ function minWindow(id) {
 	windowElement.style.width = 0 + "px";
 	windowElement.style.height = 0 + "px";
 
+	const position = [
+		windowElement.offsetTop,
+		windowElement.offsetLeft,
+		windowElement.offsetWidth,
+		windowElement.offsetHeight,
+	];
 	window.setTimeout(function () {
 		windowElement.style.transition = "none";
-		newMiniWindow(windowTitle, windowIcon, id, windowContent);
+		newMiniWindow(windowTitle, windowIcon, id, position);
 	}, 300);
 }
 
@@ -275,9 +281,9 @@ function newWindow(content, tabName, icon) {
 	}, 300);
 }
 
-let windowInformation = {};
-function newMiniWindow(title, icon, id, content) {
-	windowInformation[id] = content;
+let windowPosition = {};
+function newMiniWindow(title, icon, id, position) {
+	windowPosition[id] = position;
 	const miniAppHTML = `
 	<button class="mini-app" id="mini-app${id}" onclick="openMiniWindow(${id})">
 		${icon}
@@ -316,16 +322,19 @@ function openMiniWindow(id) {
 }
 
 function openExistingWindow(windowElement) {
+	const id = windowElement.id.substring(6);
+	const position = windowPosition[id];
+
 	windowElement.style.transition = "all 300ms ease-out";
 
 	windowElement.style.minHeight = "20rem";
 	windowElement.style.minWidth = "20rem";
 	windowElement.style.opacity = "1";
 
-	windowElement.style.top = "calc(50% - 10rem)";
-	windowElement.style.left = "calc(50% - 15rem)";
-	windowElement.style.width = "30rem";
-	windowElement.style.height = "20rem";
+	windowElement.style.top = position[0] + "px";
+	windowElement.style.left = position[1] + "px";
+	windowElement.style.width = position[2] + "px";
+	windowElement.style.height = position[3] + "px";
 	windowElement.style.zIndex = ++maxZIndex;
 
 	window.setTimeout(function () {
