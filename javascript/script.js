@@ -218,9 +218,8 @@ function minWindow(id) {
 
 let windowID = 100;
 function newWindow(content, tabName, icon) {
-	windowID++;
 	const windowHTML = `
-    <div class="window" id="window${windowID}" style="z-index: ${++maxZIndex}">
+    <div class="window" id="window${++windowID}" style="z-index: ${++maxZIndex}">
         <div class="window-top">
             <div class="window-bar" id="window${windowID}-bar">
                 <div class="window-icon">
@@ -274,6 +273,83 @@ function newWindow(content, tabName, icon) {
 	window.setTimeout(function () {
 		windowElement.style.transition = "none";
 	}, 300);
+}
+
+function newFile(fileName, fileContent) {
+	const windowHTML = `
+    <div class="window" id="window${++windowID}" style="z-index: ${++maxZIndex}">
+        <div class="window-top">
+            <div class="window-bar" id="window${windowID}-bar">
+                <div class="window-icon">
+					<i class="fa-solid fa-file"></i>
+                </div>
+                <div class="window-name">
+                	${fileName}
+                </div>
+            </div>
+            <div class="window-control">
+                <button class="btn-control" type="button" onclick="maxWindow(${windowID})">
+                    <div class="ctrl-file-maxi ctrl">
+                        <i class="fa-solid fa-tv"></i>
+                    </div>
+                </button>
+                <button class="btn-control" type="button" onclick="closeFile(${windowID}, \`${fileName}\`)">
+                    <div class="ctrl-close ctrl">
+                        <i class="fa-solid fa-x"></i>
+                    </div>
+                </button>
+            </div>
+        </div>
+        <div class="window-content">
+			<textarea name="file-text" class="file-text">${fileContent}</textarea>
+        </div>
+    </div>
+    `;
+	windowsElement.insertAdjacentHTML("beforeend", windowHTML);
+	const windowElement = document.getElementById("window" + windowID);
+	dragElement(windowElement);
+
+	windowElement.style.minHeight = "0";
+	windowElement.style.minWidth = "0";
+	windowElement.style.opacity = "0";
+
+	windowElement.style.top = "50%";
+	windowElement.style.left = "50%";
+	windowElement.style.width = "0";
+	windowElement.style.height = "0";
+
+	windowElement.style.transition = "all 300ms ease-out";
+
+	window.setTimeout(function () {
+		windowElement.style.minHeight = "20rem";
+		windowElement.style.minWidth = "20rem";
+		windowElement.style.opacity = "1";
+
+		windowElement.style.top = "calc(50% - 10rem)";
+		windowElement.style.left = "calc(50% - 15rem)";
+		windowElement.style.width = "30rem";
+		windowElement.style.height = "20rem";
+		windowElement.style.zIndex = ++maxZIndex;
+	}, 10);
+
+	window.setTimeout(function () {
+		windowElement.style.transition = "none";
+	}, 300);
+}
+
+function closeFile(id, fileName) {
+	const fileText = document.querySelector(`#window${id} textarea`).value;
+	let fileIndex = 0;
+	for (let i = 0; i < openedFiles.length; i++) {
+		if (openedFiles[i].name === fileName) {
+			fileIndex = i;
+			break;
+		}
+	}
+	openedFiles[fileIndex].content = fileText;
+
+	delWindow(id);
+	openedFiles.splice(fileIndex, 1);
 }
 
 let windowPosition = {};

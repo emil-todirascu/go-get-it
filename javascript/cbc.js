@@ -45,6 +45,7 @@ class TreeNodeFile {
 		this.value = value;
 		this.parent = null;
 		this.icon = `<i class="fa-solid fa-file"></i>`;
+		this.content = "";
 	}
 
 	setParent(parentNode) {
@@ -118,6 +119,10 @@ let gotConfirmation = false;
 let commandAwaitingConfirmation = null;
 function handleCommand(command) {
 	outputCommand(directoryElement.innerText + ">" + command);
+
+	if (command === "") {
+		return;
+	}
 
 	let commandStart = command.split(" ")[0];
 
@@ -356,6 +361,7 @@ function handleMake(fileName) {
 	outputCommand(`"${fileName}" created`);
 }
 
+let openedFiles = [];
 function handleOpen(fileName) {
 	if (!currentDirectory.hasChild(fileName)) {
 		outputCommand(`"${fileName}" does not exist`);
@@ -367,9 +373,16 @@ function handleOpen(fileName) {
 		outputCommand(`"${fileName}" is not a file`);
 		return;
 	}
+
+	if (openedFiles.includes(file)) {
+		outputCommand(`"${fileName}" is already open`);
+		return;
+	}
+
+	openedFiles.push(file);
+	newFile(fileName, file.content);
+
 	outputCommand(`"${fileName}" opened`);
-	// TODO OPEN FILE
-	outputCommand("open not implemented yet");
 }
 
 function handleMakedir(directory) {

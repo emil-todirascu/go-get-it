@@ -129,7 +129,8 @@ a {
 }
 
 .btn-control:hover .ctrl-maxi,
-.btn-control:hover .ctrl-mini {
+.btn-control:hover .ctrl-mini,
+.btn-control:hover .ctrl-file-maxi {
 	background-color: rgb(66, 65, 77);
 }
 
@@ -154,6 +155,17 @@ a {
 }
 
 .ctrl-maxi {
+	border-top: white solid var(--border-size);
+	border-bottom: white solid var(--border-size);
+}
+
+.ctrl-file-maxi {
+	border-top-left-radius: 10rem;
+	border-bottom-left-radius: 10rem;
+	margin-left: 0.5rem;
+	position: relative;
+
+	border-left: white solid var(--border-size);
 	border-top: white solid var(--border-size);
 	border-bottom: white solid var(--border-size);
 }
@@ -273,13 +285,10 @@ a {
 /* Notepad */
 
 .notepad-text {
-	/* min-width: 10rem;
-	min-height: 15rem; */
 	width: 100%;
 	height: 100%;
 	resize: none;
-
-	/* margin: 0; */
+	font-family: "Courier New", Courier, monospace;
 }
 
 /* CBC */
@@ -521,4 +530,18 @@ a {
 	cursor: pointer;
 	/* color: var(--chat); */
 	border-color: var(--chat);
+}
+
+/* File */
+
+.file-text {
+	width: 100%;
+	height: 100%;
+	resize: none;
+
+	background-color: transparent;
+	border: none;
+	outline: none;
+	font-family: "Courier New", Courier, monospace;
+	color: white;
 }

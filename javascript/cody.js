@@ -85,7 +85,7 @@ const codQuest11 = new CodyMessage(
 );
 
 const codQuest12 = new CodyMessage(
-	["so i need you to crack this guy's password"],
+	["so i need you to crack this guy's secmail password"],
 	null
 );
 codQuest11.next = codQuest12;
