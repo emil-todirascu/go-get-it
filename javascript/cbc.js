@@ -451,6 +451,11 @@ function handleMove(fileName, newDirectory) {
 }
 
 function handleName(oldName, newName) {
+	if (!oldName || !newName) {
+		outputCommand("missing file name");
+		return;
+	}
+
 	if (!currentDirectory.hasChild(oldName)) {
 		outputCommand(`"${oldName}" does not exist`);
 		return;
@@ -465,6 +470,11 @@ function handleName(oldName, newName) {
 }
 
 function handleDel(fileName) {
+	if (!fileName) {
+		outputCommand("missing file name");
+		return;
+	}
+
 	if (!currentDirectory.hasChild(fileName)) {
 		outputCommand(`"${fileName}" does not exist`);
 		return;
@@ -482,24 +492,85 @@ function handleDel(fileName) {
 	outputCommand(`"${fileName}" deleted`);
 }
 
-function handleCon(networkName) {
-	// TODO network connection
-	outputCommand("con not implemented yet");
+let currentNetwork = null;
+function handleCon(ip) {
+	if (currentNetwork !== null) {
+		outputCommand("already connected to a network: " + currentNetwork);
+		return;
+	}
+
+	if (!ip) {
+		outputCommand("missing ip");
+		return;
+	}
+
+	const ipv4Pattern =
+		/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+	if (!ipv4Pattern.test(ip)) {
+		outputCommand("invalid ip");
+		return;
+	}
+
+	currentNetwork = ip;
+	outputCommand(`connected to ${ip}`);
 }
 
 function handleDcon() {
-	// TODO network disconnection
-	outputCommand("dcon not implemented yet");
+	if (currentNetwork === null) {
+		outputCommand("not connected to a network");
+		return;
+	}
+
+	currentNetwork = null;
+	currentPort = null;
+	outputCommand("disconnected from network");
 }
+
+// 1 - 1024
+let networkPorts = new Map([["110.210.112.54", [20, 600, 823, 1010, 1022]]]);
 
 function handleScan() {
-	// TODO network scan
-	outputCommand("scan not implemented yet");
+	if (currentNetwork === null) {
+		outputCommand("not connected to a network");
+		return;
+	}
+
+	const ports = networkPorts.get(currentNetwork);
+	if (ports === undefined) {
+		outputCommand("no open ports found");
+		return;
+	}
+
+	outputCommand("open ports: " + ports.join(", "));
 }
 
+let currentPort = null;
 function handlePort(portNumber) {
-	// TODO network port
-	outputCommand("port not implemented yet");
+	if (currentNetwork === null) {
+		outputCommand("not connected to a network");
+		return;
+	}
+
+	if (!portNumber) {
+		outputCommand("missing port number");
+		return;
+	}
+
+	const port = parseInt(portNumber);
+	const openPorts = networkPorts.get(currentNetwork);
+
+	if (isNaN(port)) {
+		outputCommand("invalid port number");
+		return;
+	}
+
+	if (!openPorts.includes(port)) {
+		outputCommand("port is not open");
+		return;
+	}
+
+	currentPort = port;
+	outputCommand(`connected to port ${port}`);
 }
 
 initializeBasicTree();
