@@ -342,8 +342,12 @@ function handleList() {
 }
 
 function handleExit() {
-	// TODO EXIT CBC
-	outputCommand("exit not implemented yet");
+	const windowId =
+		directoryElement.parentElement.parentElement.parentElement.parentElement.id.substring(
+			6
+		);
+
+	delWindow(windowId);
 }
 
 function handleMake(fileName) {
