@@ -460,7 +460,7 @@ function openCBC() {
 			<div class="directory" id="directory"></div>
 			<div class="chevron">></div>
 			<form onsubmit="newCommand(event)" class="cbc-form">
-				<input type="text" id="command" class="cbc-input" autocomplete="off">
+				<input type="text" id="command" class="cbc-input" autocomplete="off" onkeydown="getCommandHistory(event)">
 			</form>
 		</div>
 	</div>

@@ -117,11 +117,18 @@ function outputCommand(command) {
 let awaitingConfirmation = false;
 let gotConfirmation = false;
 let commandAwaitingConfirmation = null;
+const commandHistory = [];
 function handleCommand(command) {
 	outputCommand(directoryElement.innerText + ">" + command);
 
+	commandHistoryIndex = -1;
+
 	if (command === "") {
 		return;
+	}
+
+	if (commandHistory.length === 0 || commandHistory[0] !== command) {
+		commandHistory.unshift(command);
 	}
 
 	let commandStart = command.split(" ")[0];
@@ -588,6 +595,26 @@ function handlePort(portNumber) {
 
 	currentPort = port;
 	outputCommand(`connected to port ${port}`);
+}
+
+let commandHistoryIndex = -1;
+function getCommandHistory(e) {
+	const commandInput = document.getElementById("command");
+	if (e.key === "ArrowUp" && commandHistoryIndex < commandHistory.length - 1) {
+		commandHistoryIndex++;
+	} else if (e.key === "ArrowDown" && commandHistoryIndex > 0) {
+		commandHistoryIndex--;
+	} else {
+		return;
+	}
+	commandInput.value = commandHistory[commandHistoryIndex];
+
+	window.setTimeout(function () {
+		commandInput.setSelectionRange(
+			commandInput.value.length,
+			commandInput.value.length
+		);
+	}, 0);
 }
 
 initializeBasicTree();
