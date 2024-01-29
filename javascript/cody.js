@@ -47,7 +47,7 @@ class Cody {
 	}
 
 	startChat() {
-		addMessageCody(this.getRandomOption(["yo", "hello", "hey"]));
+		addMessageCody(this.getRandomOption(["yo", "hello", "hey"]), true);
 	}
 
 	getRandomOption(options) {
@@ -57,7 +57,7 @@ class Cody {
 	send(options, time) {
 		const message = this.getRandomOption(options);
 		window.setTimeout(function () {
-			addMessageCody(message);
+			addMessageCody(message, true);
 		}, time);
 	}
 }

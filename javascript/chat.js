@@ -1,12 +1,22 @@
 let optionsElement;
 let chatElement;
+let chatInitiated = false;
+let messageHistory = {};
+
 const cody = new Cody();
 const player = new Player();
 
 function initChat() {
 	optionsElement = document.getElementById("options");
 	chatElement = document.getElementById("chat-messages");
+
+	if (chatInitiated) {
+		updateChat();
+		return;
+	}
+
 	cody.startChat();
+	chatInitiated = true;
 }
 
 function chooseOption(option) {
@@ -15,7 +25,7 @@ function chooseOption(option) {
 
 	window.setTimeout(function () {
 		const message = optionsElement.children[option].innerHTML;
-		addMessagePlayer(message);
+		addMessagePlayer(message, true);
 	}, 300);
 }
 
@@ -36,7 +46,7 @@ function showOptions(options) {
 	}, 300);
 }
 
-function addMessagePlayer(message) {
+function addMessagePlayer(message, receive) {
 	const messageElement = `
     <div class="message-going" style="transform: translateX(150%)">${message}</div>
     `;
@@ -53,10 +63,13 @@ function addMessagePlayer(message) {
 		messageGoingElement.style.transition = "none";
 	}, 300);
 
-	cody.receiveMessage(message);
+	if (receive) {
+		cody.receiveMessage(message);
+		messageHistory[Object.keys(messageHistory).length] = [message, "player"];
+	}
 }
 
-function addMessageCody(message) {
+function addMessageCody(message, receive) {
 	const messageElement = `
 	<div class="message-coming" style="transform: translateX(-150%)">${message}</div>
 	`;
@@ -72,5 +85,29 @@ function addMessageCody(message) {
 	window.setTimeout(function () {
 		messageComingElement.style.transition = "none";
 	}, 300);
-	player.receiveMessage(message);
+
+	if (receive) {
+		player.receiveMessage(message);
+		messageHistory[Object.keys(messageHistory).length] = [message, "cody"];
+	}
+}
+
+function updateChat() {
+	const height = optionsElement.offsetHeight;
+	optionsElement.style.marginBottom = "-" + height + "px";
+
+	for (message in messageHistory) {
+		console.log(messageHistory[message]);
+		if (messageHistory[message][1] == "player") {
+			addMessagePlayer(messageHistory[message][0], false);
+		} else {
+			addMessageCody(messageHistory[message][0], false);
+		}
+	}
+
+	if (messageHistory[Object.keys(messageHistory).length - 1][1] == "cody") {
+		player.receiveMessage(
+			messageHistory[Object.keys(messageHistory).length - 1][0]
+		);
+	}
 }
