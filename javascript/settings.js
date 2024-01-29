@@ -15,3 +15,8 @@ function changeBackground(e) {
 		reader.readAsDataURL(file);
 	}
 }
+
+function changeFontSize(size) {
+	document.documentElement.style.fontSize = size;
+	toolBarHeight = document.getElementById("toolbar").clientHeight;
+}

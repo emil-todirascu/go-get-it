@@ -1,6 +1,6 @@
 const windowElements = document.getElementsByClassName("window");
 const windowsElement = document.getElementById("windows");
-const toolBarHeight = document.getElementById("toolbar").clientHeight;
+let toolBarHeight = document.getElementById("toolbar").clientHeight;
 const miniAppsElement = document.getElementById("mini-apps");
 
 let maxZIndex = 0;
@@ -513,6 +513,16 @@ function openSettings() {
 	<form onsubmit="changeBackground(event)">
 		<input type="file" id="newImage" name="filename" autocomplete="off"><input type="submit" value="Set Background">
 	</form>
+	Font Size:
+	<button onclick="changeFontSize(\`100%\`)">
+		Small
+	</button>
+	<button onclick="changeFontSize(\`120%\`)">
+		Medium
+	</button>
+	<button onclick="changeFontSize(\`130%\`)">
+		Big
+	</button>
 	`;
 
 	newWindow(content, "Settings", `<i class="fa-solid fa-gear"></i>`);
