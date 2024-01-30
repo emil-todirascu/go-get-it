@@ -73,6 +73,8 @@ function initCBC() {
 	currentDirectory = fileDirectory;
 	directoryElement = document.getElementById("directory");
 	directoryElement.innerText = ":root";
+	currentNetwork = null;
+	currentPort = null;
 }
 
 function sanitize(string) {
@@ -198,6 +200,18 @@ function handleCommand(command) {
 			const port = command.split(" ")[1];
 			handlePort(port);
 			break;
+		case "find":
+			const findFile = command.split(" ")[1];
+			handleFind(findFile);
+			break;
+		case "download":
+			const downloadFile = command.split(" ")[1];
+			handleDownload(downloadFile);
+			break;
+		case "upload":
+			const uploadFile = command.split(" ")[1];
+			handleUpload(uploadFile);
+			break;
 		default:
 			outputCommand(`"${command}" is not a valid command`);
 	}
@@ -301,6 +315,22 @@ function handleHelp(command) {
 		outputCommand("connects to a port of the current network");
 		outputCommand("format: port [port-number]");
 		outputCommand("[port-number] - port number to connect to");
+	} else if (givenCommand === "find") {
+		outputCommand("finds a file on the current port given a key word");
+		outputCommand("format: find [key-word]");
+		outputCommand("[key-word] - name of the file to find");
+	} else if (givenCommand === "download") {
+		outputCommand(
+			"downloads a file from the current port to the current directory"
+		);
+		outputCommand("format: download [file-name]");
+		outputCommand("[file-name] - name of the file to download");
+	} else if (givenCommand === "upload") {
+		outputCommand(
+			"uploads a file from the current directory to the current port"
+		);
+		outputCommand("format: upload [file-name]");
+		outputCommand("[file-name] - name of the file to upload");
 	} else {
 		outputCommand(`"${givenCommand}" is not a valid command`);
 	}
@@ -331,6 +361,9 @@ function outputGeneralCommands() {
 	outputCommand(
 		"port [port-number] - connect to a port of the current network"
 	);
+	outputCommand("find [key-word] - find file on current port");
+	outputCommand("download [file-name] - download file from current port");
+	outputCommand("upload [file-name] - upload file to current port");
 	outputCommand("---");
 	outputCommand("COMMAND PARAMETERS");
 	outputCommand("{parameter} - optional parameter");
@@ -552,6 +585,9 @@ function handleDcon() {
 
 // 1 - 1024
 let networkPorts = new Map([["110.210.112.54", [20, 600, 823, 1010, 1022]]]);
+let correctPorts = new Map([
+	["110.210.112.54", [823, "passSecmail", "cynovqogpox-nkwqgspn"]],
+]);
 
 function handleScan() {
 	if (currentNetwork === null) {
@@ -583,18 +619,110 @@ function handlePort(portNumber) {
 	const port = parseInt(portNumber);
 	const openPorts = networkPorts.get(currentNetwork);
 
-	if (isNaN(port)) {
-		outputCommand("invalid port number");
-		return;
-	}
-
-	if (!openPorts.includes(port)) {
+	if (openPorts === undefined || !openPorts.includes(port)) {
 		outputCommand("port is not open");
 		return;
 	}
 
 	currentPort = port;
 	outputCommand(`connected to port ${port}`);
+}
+
+function handleFind(word) {
+	if (currentNetwork === null) {
+		outputCommand("not connected to a network");
+		return;
+	}
+
+	if (currentPort === null) {
+		outputCommand("not connected to a port");
+		return;
+	}
+
+	if (!word) {
+		outputCommand("missing key word");
+		return;
+	}
+
+	if (
+		!correctPorts.has(currentNetwork) ||
+		correctPorts.get(currentNetwork)[0] !== currentPort
+	) {
+		outputCommand("no files found");
+		return;
+	}
+
+	if (word === "secmail") {
+		return outputCommand("file found: " + correctPorts.get(currentNetwork)[1]);
+	}
+
+	outputCommand("no files found");
+}
+
+function handleDownload(fileName) {
+	if (currentNetwork === null) {
+		outputCommand("not connected to a network");
+		return;
+	}
+
+	if (currentPort === null) {
+		outputCommand("not connected to a port");
+		return;
+	}
+
+	if (!fileName) {
+		outputCommand("missing file name");
+		return;
+	}
+
+	if (
+		!correctPorts.has(currentNetwork) ||
+		correctPorts.get(currentNetwork)[0] !== currentPort
+	) {
+		outputCommand("file not found");
+		return;
+	}
+
+	if (fileName === "passSecmail") {
+		const file = new TreeNodeFile(fileName);
+		file.content = correctPorts.get(currentNetwork)[2];
+		currentDirectory.addChild(file);
+		outputCommand("file downloaded");
+		return;
+	}
+
+	outputCommand("file not found");
+}
+
+let uploadedFile = null;
+function handleUpload(fileName) {
+	if (currentNetwork === null) {
+		outputCommand("not connected to a network");
+		return;
+	}
+
+	if (currentPort === null) {
+		outputCommand("not connected to a port");
+		return;
+	}
+
+	if (!fileName) {
+		outputCommand("missing file name");
+		return;
+	}
+
+	if (!currentDirectory.hasChild(fileName)) {
+		outputCommand(`"${fileName}" does not exist`);
+		return;
+	}
+
+	if (!(currentDirectory.getChild(fileName) instanceof TreeNodeFile)) {
+		outputCommand(`"${fileName}" is not a file`);
+		return;
+	}
+
+	uploadedFile = currentDirectory.getChild(fileName);
+	outputCommand(`"${fileName}" uploaded`);
 }
 
 let commandHistoryIndex = -1;
