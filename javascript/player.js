@@ -26,4 +26,5 @@ class Player {
 const humGreetings = ["yo", "hello", "hey"];
 const humHowAreYou = ["good, u?", "not bad, hbu?", "im fine, you?"];
 const humStart = ["ok im ready", "im good to go", "lets start"];
+
 const humQuest14 = ["you have his ip?", "ok, sure", "aight, im on it"];

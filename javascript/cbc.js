@@ -584,7 +584,10 @@ function handleDcon() {
 }
 
 // 1 - 1024
-let networkPorts = new Map([["110.210.112.54", [20, 600, 823, 1010, 1022]]]);
+let networkPorts = new Map([
+	["110.210.112.54", [20, 600, 823, 1010, 1022]],
+	["21.174.143.111", [114, 657, 911, 912, 977]],
+]);
 let correctPorts = new Map([
 	["110.210.112.54", [823, "passSecmail", "cynovqogpox-nkwqgspn"]],
 ]);
@@ -626,6 +629,9 @@ function handlePort(portNumber) {
 
 	currentPort = port;
 	outputCommand(`connected to port ${port}`);
+
+	// mission 1
+	cody.missionTrigger([currentNetwork, currentPort]);
 }
 
 function handleFind(word) {
@@ -723,6 +729,9 @@ function handleUpload(fileName) {
 
 	uploadedFile = currentDirectory.getChild(fileName);
 	outputCommand(`"${fileName}" uploaded`);
+
+	// mission 1
+	cody.missionEnd(uploadedFile);
 }
 
 let commandHistoryIndex = -1;
@@ -742,7 +751,7 @@ function getCommandHistory(e) {
 			commandInput.value.length,
 			commandInput.value.length
 		);
-	}, 0);
+	}, 10);
 }
 
 initializeBasicTree();

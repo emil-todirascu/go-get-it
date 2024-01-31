@@ -24,26 +24,18 @@ class Cody {
 			["ok, sure", codQuest15],
 			["aight, im on it", codQuest15],
 		]);
+		this.currentMission = null;
+		this.missionTriggerSent = false;
 	}
 
 	receiveMessage(humMessage) {
-		if (this.responses.has(humMessage)) {
-			let time = Math.random() * 1000 + 1000;
-
-			let responseObject = this.responses.get(humMessage);
-			let possibleResponses = responseObject.message;
-
-			this.send(possibleResponses, time);
-
-			while (responseObject.next != null) {
-				time += Math.random() * 1000 + 3000;
-
-				responseObject = responseObject.next;
-				possibleResponses = responseObject.message;
-
-				this.send(possibleResponses, time);
-			}
+		if (!this.responses.has(humMessage)) {
+			return;
 		}
+		let time = Math.random() * 1000 + 1000;
+
+		let responseObject = this.responses.get(humMessage);
+		this.send(responseObject, time);
 	}
 
 	startChat() {
@@ -54,11 +46,53 @@ class Cody {
 		return options[Math.floor(Math.random() * options.length)];
 	}
 
-	send(options, time) {
-		const message = this.getRandomOption(options);
+	send(messageObject, time) {
+		const message = this.getRandomOption(messageObject.message);
+		time = 100;
+
+		// start misison 1
+		if (message === "so i need you to crack this guy's secmail password") {
+			this.currentMission = 1;
+			console.log("mission 1 started");
+		}
+
 		window.setTimeout(function () {
 			addMessageCody(message, true);
 		}, time);
+
+		if (messageObject.next != null) {
+			time += Math.random() * 1000 + 3000;
+
+			messageObject = messageObject.next;
+
+			this.send(messageObject, time);
+		}
+	}
+
+	// details = [ip, port]
+	missionTrigger(details) {
+		console.log("mission trigger");
+		if (!this.currentMission) return;
+		if (this.missionTriggerSent) return;
+		console.log("sending maybe");
+		if (
+			this.currentMission === 1 &&
+			correctPorts.has(details[0]) &&
+			correctPorts.get(details[0])[0] === details[1]
+		) {
+			const time = Math.random() * 7000 + 5000;
+			this.send(codQuest16, time);
+			this.missionTriggerSent = true;
+		}
+	}
+
+	missionEnd(file) {
+		if (!this.currentMission) return;
+		if (file.content === "supersecret-password") {
+			const time = Math.random() * 3000 + 12000;
+			this.send(codQuest18, time);
+			this.currentMission = null;
+		}
 	}
 }
 
@@ -99,3 +133,15 @@ codQuest141.next = codQuest142;
 
 const codQuest15 = new CodyMessage(["good luck", "ok, good luck"], null);
 codQuest142.next = codQuest15;
+
+const codQuest16 = new CodyMessage(["btw"], null);
+const codQuest17 = new CodyMessage(
+	["when you get it, just upload it to the company server: 21.174.143.111:657"],
+	null
+);
+codQuest16.next = codQuest17;
+
+const codQuest18 = new CodyMessage(
+	["nice, i got it", "received, thank you", "got it, thx"],
+	null
+);
