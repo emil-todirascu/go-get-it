@@ -48,7 +48,6 @@ class Cody {
 
 	send(messageObject, time) {
 		const message = this.getRandomOption(messageObject.message);
-		time = 100;
 
 		// start misison 1
 		if (message === "so i need you to crack this guy's secmail password") {
@@ -71,10 +70,8 @@ class Cody {
 
 	// details = [ip, port]
 	missionTrigger(details) {
-		console.log("mission trigger");
 		if (!this.currentMission) return;
 		if (this.missionTriggerSent) return;
-		console.log("sending maybe");
 		if (
 			this.currentMission === 1 &&
 			correctPorts.has(details[0]) &&
