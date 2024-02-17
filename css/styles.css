@@ -17,26 +17,18 @@ body {
 	--black: rgb(28, 27, 34);
 	--gray: rgb(43, 42, 51);
 	--light-gray: rgb(66, 65, 77);
-	--green: rgb(0, 255, 0);
+	--cbc: rgb(0, 255, 0);
 
 	/* App Colors */
-	--cbc: var(--green);
-	--chat: rgb(0, 0, 255);
-	--decryptor: yellow;
+	--cbc: rgb(100, 255, 100);
+	--chat: rgb(100, 100, 255);
+	--decryptor: rgb(200, 200, 0);
 	--settings: rgb(128, 128, 128);
 }
 
 body {
-	background-image: linear-gradient(
-		to right top,
-		#3232ff,
-		#3b2cc3,
-		#38268b,
-		#2e2056,
-		#1e1927
-	);
-	/* background-image: url(../assets/windows-xp.jpg);
-	background-size: cover; */
+	background-image: url(../assets/windows-xp.jpg);
+	background-size: cover;
 	color: white;
 }
 
@@ -201,7 +193,7 @@ a {
 	height: 3rem;
 	z-index: 1000000;
 
-	background-color: rgb(0, 0, 0, 0.3);
+	background-color: rgb(0, 0, 0, 0.4);
 	backdrop-filter: blur(0.5rem);
 	display: flex;
 
@@ -296,7 +288,7 @@ a {
 
 .cbc-content {
 	background-color: black;
-	color: var(--green);
+	color: var(--cbc);
 	font-weight: 100;
 	height: 100%;
 	display: flex;
@@ -317,7 +309,7 @@ a {
 	}
 
 	::-webkit-scrollbar-thumb {
-		background: var(--green);
+		background: var(--cbc);
 		border-radius: 10rem;
 	}
 
@@ -327,7 +319,7 @@ a {
 }
 
 .cbc-top {
-	border-bottom: var(--green) solid 1px;
+	border-bottom: var(--cbc) solid 1px;
 }
 
 .cbc-mid {
@@ -354,7 +346,7 @@ a {
 }
 
 .cbc-bot {
-	border-top: var(--green) solid 1px;
+	border-top: var(--cbc) solid 1px;
 	display: flex;
 	width: 100%;
 }
@@ -367,7 +359,7 @@ a {
 	width: 100%;
 	height: 100%;
 	background: black;
-	color: var(--green);
+	color: var(--cbc);
 	border: none;
 	outline: none;
 	font-family: "Courier New", Courier, monospace;
