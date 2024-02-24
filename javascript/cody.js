@@ -128,7 +128,7 @@ const codQuest141 = new CodyMessage(["one sec"], null);
 const codQuest142 = new CodyMessage(["its 110.210.112.54"], null);
 codQuest141.next = codQuest142;
 
-const codQuest15 = new CodyMessage(["good luck", "ok, good luck"], null);
+const codQuest15 = new CodyMessage(["alright, go get it"], null);
 codQuest142.next = codQuest15;
 
 const codQuest16 = new CodyMessage(["btw"], null);
